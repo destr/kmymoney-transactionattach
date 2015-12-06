@@ -1,0 +1,6 @@
+
+set(kmm_transactionattach_forms_SOURCES pluginsettings.cpp)
+set(kmm_transactionattach_forms_PART_UI pluginsettingsdecl.ui)
+kde4_add_ui_files(kmm_transactionattach_forms_SOURCES ${kmm_transactionattach_forms_PART_UI})
+kde4_add_library(kmm_transactionattach_forms STATIC ${kmm_transactionattach_forms_SOURCES})
+

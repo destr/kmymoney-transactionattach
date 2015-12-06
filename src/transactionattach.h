@@ -12,6 +12,7 @@ class TRANSACTIONATTACH_API TransactionAttach : public KMyMoneyPlugin::Plugin {
     Q_OBJECT
 public:
     TransactionAttach(QObject *parent, const QVariantList &args);
+    ~TransactionAttach();
 private:
     Q_DISABLE_COPY(TransactionAttach)
 };
