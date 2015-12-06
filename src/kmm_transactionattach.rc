@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="kmymoneyplugin-transactionattach" version="1">
+  <MenuBar>
+    <Menu name="transactions">
+      <Menu name="attach" append="attach">
+        <Action name="attach_file" />
+      </Menu>
+    </Menu>
+  </MenuBar>
+</kpartgui>
