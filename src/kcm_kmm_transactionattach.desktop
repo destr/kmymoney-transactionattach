@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Configure transactionattach plugin
+Icon=x-office-calendar
+Type=Service
+ServiceTypes=KCModule
+Exec=kcmshell4 kmm_transactionattach
+Categories=Qt;KDE;kmymoney;
+Keywords=transactionattach;kmymoney;
+X-KDE-Library=kcm_kmm_transactionattach
+X-KDE-ParentApp=TransactionAttach
+X-KDE-ParentComponents=TransactionAttach
+Comment=Permits the configuration of the transaction attach plugin
