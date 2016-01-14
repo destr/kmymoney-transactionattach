@@ -2,7 +2,10 @@
 <kpartgui name="kmymoneyplugin-transactionattach" version="1">
   <MenuBar>
     <Menu name="transaction">
-        <Action name="attach_file" />
+        <Action name="transaction_attachment" />
     </Menu>
   </MenuBar>
+  <Menu name="transaction_context_menu" >
+    <Action name="transaction_attachment" />
+  </Menu>
 </kpartgui>
