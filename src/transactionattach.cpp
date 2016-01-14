@@ -10,6 +10,8 @@
 #include <kmymoney/selectedtransaction.h>
 
 #include "attachmentdialog.h"
+#include "attachmentmodel.h"
+#include "attachmentstorage.h"
 #include "transactionattach.h"
 
 K_PLUGIN_FACTORY(TransactionAttachFactory, registerPlugin<TransactionAttach>(););
@@ -19,6 +21,7 @@ struct TransactionAttach::Private {
     KAction *action;
     /// selected transaction id
     QString transactionId;
+    AttachmentStorage storage;
 };
 
 TransactionAttach::TransactionAttach(QObject *parent, const QVariantList &args)
@@ -60,7 +63,11 @@ void TransactionAttach::slotUnplug(KPluginInfo *info) {
 void TransactionAttach::slotAttachment() {
     Q_ASSERT(!d_->transactionId.isEmpty());
 
+    /// TODO reload()
+    d_->storage.setTransactionId(d_->transactionId);
+
     AttachmentDialog d;
+    d.setModel(d_->storage.model());
     qDebug() << Q_FUNC_INFO << d_->transactionId;
     d.exec();
 }  // slotAttachment

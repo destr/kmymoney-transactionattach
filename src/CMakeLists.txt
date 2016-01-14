@@ -10,10 +10,14 @@ include_directories(/usr/include/kmymoney
 ########### next target ###############
 
 set(kmm_transactionattach_PART_SRCS
+    attachmentmodel.cpp
+    attachmentstorage.cpp
     transactionattach.cpp
     transactionattachview.cpp
     )
 set(kmm_transactionattach_PART_HEADERS 
+    attachmentmodel.h
+    attachmentstorage.h
     transactionattach_export.h
     transactionattach.h
     transactionattachview.h

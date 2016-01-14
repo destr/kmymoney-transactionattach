@@ -10,3 +10,7 @@ AttachmentDialog::AttachmentDialog(QWidget *parent) :
 AttachmentDialog::~AttachmentDialog() {
     delete ui;
 }  // Dtor
+
+void AttachmentDialog::setModel(QAbstractItemModel *model) {
+    ui->listView->setModel(model);
+}  // setModel
