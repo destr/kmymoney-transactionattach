@@ -1,3 +1,5 @@
+#include <QtGui/QVBoxLayout>
+#include <QtCore/QDebug>
 // KDE includes
 #include <KPluginFactory>
 
@@ -14,7 +16,10 @@ KCMTransactionAttach::KCMTransactionAttach(QWidget *parent, const QVariantList &
     KCModule(KCMTransactionAttachFactory::componentData(), parent, args) {
     PluginSettingsWidget *w = new PluginSettingsWidget(this);
     addConfig(PluginSettings::self(), w);
-
+    QVBoxLayout *layout(new QVBoxLayout(this));
+    setLayout(layout);
+    layout->addWidget(w);
+    load();
 }  // Ctor
 
 KCMTransactionAttach::~KCMTransactionAttach() {
