@@ -23,6 +23,7 @@ kde4_add_kcfg_files(kmm_transactionattach_PART_SOURCES pluginsettings.kcfgc)
 kde4_add_plugin(kmm_transactionattach ${kmm_transactionattach_PART_SRCS})
 
 target_link_libraries(kmm_transactionattach
+                      kmm_transactionattach_forms
                       kmm_mymoney
                       kmm_widgets
                       kmm_plugin
@@ -55,7 +56,7 @@ kde4_add_plugin(kcm_kmm_transactionattach ${kcm_kmm_transactionattach_SOURCES})
 
 
 target_link_libraries(kcm_kmm_transactionattach
-                      kmm_transactionattach_forms
+                      kcm_kmm_transactionattach_forms
                       ${KDE4_KDEUI_LIBS}
                       ${KDE4_KIO_LIBS}
                       )

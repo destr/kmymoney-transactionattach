@@ -9,6 +9,7 @@
 #include <kmymoney/pluginloader.h>
 #include <kmymoney/selectedtransaction.h>
 
+#include "attachmentdialog.h"
 #include "transactionattach.h"
 
 K_PLUGIN_FACTORY(TransactionAttachFactory, registerPlugin<TransactionAttach>(););
@@ -59,7 +60,9 @@ void TransactionAttach::slotUnplug(KPluginInfo *info) {
 void TransactionAttach::slotAttachment() {
     Q_ASSERT(!d_->transactionId.isEmpty());
 
+    AttachmentDialog d;
     qDebug() << Q_FUNC_INFO << d_->transactionId;
+    d.exec();
 }  // slotAttachment
 
 void TransactionAttach::slotTransactionsSelected(const KMyMoneyRegister::SelectedTransactions &transactions) {
