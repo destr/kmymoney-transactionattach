@@ -6,21 +6,22 @@
 class AttachmentModel;
 
 class AttachmentStorage {
-public:
-    explicit AttachmentStorage();
-    ~AttachmentStorage();
+ public:
+  explicit AttachmentStorage();
+  ~AttachmentStorage();
 
-    const QString& transactionId() const;
-    void setTransactionId(const QString &id);
+  const QString& transactionId() const;
+  void setTransactionId(const QString& id);
 
-    AttachmentModel* model();
+  AttachmentModel* model();
 
-private:
-    void load();
+ private:
+  void load();
 
-private:
-    QString transactionId_;
-    AttachmentModel *model_;
-private:
-    Q_DISABLE_COPY(AttachmentStorage)
+ private:
+  QString transactionId_;
+  AttachmentModel* model_;
+
+ private:
+  Q_DISABLE_COPY(AttachmentStorage)
 };
