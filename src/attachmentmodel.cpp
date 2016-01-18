@@ -36,16 +36,16 @@ int AttachmentModel::columnCount(const QModelIndex &parent) const {
 }  //  columnCount
 
 QVariant AttachmentModel::data(const QModelIndex &index, int role) const {
-    if (!index.isValid()) return QVariant();
-    if (role != Qt::DisplayRole) return QVariant();
+//    if (!index.isValid()) return QVariant();
+//    if (role != Qt::DisplayRole) return QVariant();
 
-    const AttachedItem &item = list_.at(index.row());
+//    const AttachedItem &item = list_.at(index.row());
 
-    switch (index.column()) {
-    case FileNameColumn:
-        return item.filename;
-    default:
-        return QVariant();
-    }
+//    switch (index.column()) {
+//    case FileNameColumn:
+//        return item.filename;
+//    default:
+//        return QVariant();
+//    }
     return QVariant();
 }  // data

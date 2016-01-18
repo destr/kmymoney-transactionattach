@@ -5,6 +5,8 @@
 
 #include <QtGui/QDialog>
 
+#include "attachmentstorage.h"
+
 namespace Ui {
 class AttachmentDialog;
 }
@@ -17,6 +19,11 @@ public:
     ~AttachmentDialog();
 
     void setModel(QAbstractItemModel *model);
+    void setStorage(AttachmentStorage *storage);
+
+public slots:
+    void addAttachment();
+    void removeAttachment();
 
 private:
     Ui::AttachmentDialog *ui;
