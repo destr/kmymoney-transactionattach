@@ -13,9 +13,7 @@ struct AttachmentStorage::Private {
   QString transactionId;
   AttachmentModel *model;
   QDir dir;
-  QString attachPath() {
-    return dir.filePath(transactionId);
-  }
+  QString attachPath() { return dir.filePath(transactionId); }
 };
 
 AttachmentStorage::AttachmentStorage() : d_(new Private) {}  // Ctor
@@ -36,17 +34,28 @@ AttachmentModel *AttachmentStorage::model() { return d_->model; }  // model
 
 void AttachmentStorage::addFiles(const UrlList &files) {
   QDir dir(d_->attachPath());
+  if (!dir.exists()) {
+    dir.mkpath(".");
+  }
   int counter(dir.count());
   Q_FOREACH (QUrl url, files) {
     if (!url.isLocalFile()) continue;
 
-    QImageReader reader(url.toLocalFile());
+    const QString filename(url.toLocalFile());
+    QImageReader reader(filename);
     if (reader.format().isEmpty()) {
       continue;
     }
 
-    QFile origFile(url.toLocalFile());
-    origFile.copy(QString("%1/%2").arg(d_->attachPath()).arg(counter));
+    QFile origFile(filename);
+    QFileInfo finfo(filename);
+    if (!origFile.copy(QString("%1/%2.%3")
+                           .arg(d_->attachPath())
+                           .arg(counter)
+                           .arg(finfo.suffix()))) {
+      qDebug() << "Copy file error: " << origFile.errorString();
+      continue;
+    }
     ++counter;
   }
 }  // addFiles
@@ -60,14 +69,18 @@ void AttachmentStorage::load() {
   if (d_->transactionId.isEmpty()) return;
 
   AttachedItemList list;
-
-  const QString path = d_->dir.filePath(d_->transactionId);
+  const QString path = d_->attachPath();
   qDebug() << "Load from: " << path;
+
+  QDir dir(path);
+  Q_FOREACH (const QString &filename, dir.entryList(QDir::Files)) {
+    list.push_back(AttachedItem(dir.filePath(filename)));
+  }
 
 #if 0
   for (int i = 0; i < 10; ++i) {
     list.push_back(AttachedItem(QString("filename_%1").arg(i)));
   }
-  d_->model->setModelData(list);
 #endif
+  d_->model->setModelData(list);
 }  // load

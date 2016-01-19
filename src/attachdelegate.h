@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QtGui/QPixmap>
 #include <QtGui/QStyledItemDelegate>
 
 class AttachDelegate : public QStyledItemDelegate {

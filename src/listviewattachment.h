@@ -12,6 +12,9 @@ public:
 
   void setStorage(AttachmentStorage *storage);
 
+  static const int maxPreviewWidth = 297;
+  static const int maxPreviewHeight = 210;
+
   // QWidget interface
 protected:
   void dragEnterEvent(QDragEnterEvent*event);

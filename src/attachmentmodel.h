@@ -20,6 +20,12 @@ public:
         ColumnCount
     };
 
+    enum Roles {
+      FileNameRole = Qt::UserRole + 1,
+      PreviewRole,
+      ImageRole
+    };
+
     explicit AttachmentModel(QObject *parent = 0);
     ~AttachmentModel();
 
