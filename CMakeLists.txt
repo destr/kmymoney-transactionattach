@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.8.7)
 # Setting the name of the main project
 project(kmymoney-transactionattach)
 
+set(CMAKE_AUTOMOC TRUE)
+
 if(NOT WIN32)
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
@@ -21,7 +23,9 @@ if(NOT WIN32)
   # use position independent code
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 endif(NOT WIN32)
-set(CMAKE_AUTOMOC ON)
+
+
+
 if(NOT WIN32)
 add_subdirectory(src)
 endif(NOT WIN32)

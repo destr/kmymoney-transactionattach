@@ -2,6 +2,7 @@
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kmm_transactionattach.desktop
     ${CMAKE_CURRENT_BINARY_DIR}/kmm_transactionattach.desktop)
 add_subdirectory(forms)
+
 include_directories(/usr/include/kmymoney
     ${CMAKE_CURRENT_SOURCE_DIR}/forms
     ${CMAKE_CURRENT_BINARY_DIR}/forms
@@ -10,21 +11,33 @@ include_directories(/usr/include/kmymoney
 ########### next target ###############
 
 set(kmm_transactionattach_PART_SRCS
+    attachdelegate.cpp
     attachmentmodel.cpp
     attachmentstorage.cpp
+    attachmentstorage.cpp
+    attachmentstoragefactory.cpp
+    listviewattachment.cpp
     transactionattach.cpp
     transactionattachview.cpp
     )
 set(kmm_transactionattach_PART_HEADERS 
+    abstractattachmentstorage.h
+    attachdelegate.h
     attachmentmodel.h
+    attachmentstoragefactory.h
     attachmentstorage.h
+    attachmentstorage.h
+    listviewattachment.h
     transactionattach_export.h
     transactionattach.h
     transactionattachview.h
     )
 
 kde4_add_kcfg_files(kmm_transactionattach_PART_SOURCES pluginsettings.kcfgc)
-kde4_add_plugin(kmm_transactionattach ${kmm_transactionattach_PART_SRCS})
+kde4_add_plugin(kmm_transactionattach
+    ${kmm_transactionattach_PART_SRCS}
+    ${kmm_transactionattach_PART_HEADERS}
+    )
 
 target_link_libraries(kmm_transactionattach
                       kmm_transactionattach_forms

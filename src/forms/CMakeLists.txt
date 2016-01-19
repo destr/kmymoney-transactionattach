@@ -3,6 +3,7 @@ set(kcm_kmm_transactionattach_forms_UI pluginsettingsdecl.ui)
 kde4_add_ui_files(kcm_kmm_transactionattach_forms_SOURCES ${kcm_kmm_transactionattach_forms_UI})
 kde4_add_library(kcm_kmm_transactionattach_forms STATIC ${kcm_kmm_transactionattach_forms_SOURCES})
 
+include_directories(${CMAKE_SOURCE_DIR}/src)
 
 set(kmm_transactionattach_forms_SOURCES
     attachmentdialog.cpp)
