@@ -4,20 +4,29 @@
 #include <QtGui/QDropEvent>
 
 #include "attachdelegate.h"
+#include "attachmentmodel.h"
 #include "listviewattachment.h"
 
 /// ориентация А6 портретная
 const QSize ListViewAttachment::previewSize(105, 148);
 
 ListViewAttachment::ListViewAttachment(QWidget* parent)
-    : QListView(parent), storage_(0) {
+    : QListView(parent) {
   setAcceptDrops(true);
   setItemDelegate(new AttachDelegate(this));
+  setMaximumWidth(200);
 }  // Ctor
-
-void ListViewAttachment::setStorage(AttachmentStorage* storage) {
-  storage_ = storage;
-}  // setStorage
+#if 0
+void ListViewAttachment::removeAttachment() {
+  QItemSelectionModel* selection = selectionModel();
+  if (!selection) return;
+  Q_FOREACH (QModelIndex index, selection->selectedRows()) {
+    const QString filename =
+        index.data(AttachmentModel::FileNameRole).toString();
+    storage_->removeFile(filename);
+  }
+}  // removeAttachment
+#endif
 
 void ListViewAttachment::dragEnterEvent(QDragEnterEvent* event) {
   if (!event->mimeData()->hasUrls()) return;
@@ -27,7 +36,9 @@ void ListViewAttachment::dragEnterEvent(QDragEnterEvent* event) {
 
 void ListViewAttachment::dropEvent(QDropEvent* event) {
   event->acceptProposedAction();
-  storage_->addFiles(event->mimeData()->urls());
+  AttachmentModel *model = qobject_cast<AttachmentModel*>(this->model());
+  if (!model) return;
+  model->addFiles(event->mimeData()->urls());
 }  // dropEvent
 
 void ListViewAttachment::dragMoveEvent(QDragMoveEvent* event) {

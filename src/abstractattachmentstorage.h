@@ -13,6 +13,7 @@ public:
   AbstractAttachmentStorage() {}
   virtual void addFiles(const UrlList &list) = 0;
   virtual void setPath(const QString &path) = 0;
+  virtual void removeFiles(const QStringList &list) = 0;
 
 private:
   Q_DISABLE_COPY(AbstractAttachmentStorage)

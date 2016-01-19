@@ -21,7 +21,7 @@ struct TransactionAttach::Private {
     KAction *action;
     /// selected transaction id
     QString transactionId;
-    AttachmentStorage storage;
+    AttachmentModel model;
 };
 
 TransactionAttach::TransactionAttach(QObject *parent, const QVariantList &args)
@@ -64,10 +64,10 @@ void TransactionAttach::slotAttachment() {
     Q_ASSERT(!d_->transactionId.isEmpty());
 
     /// TODO reload()
-    d_->storage.setTransactionId(d_->transactionId);
+    d_->model.setTransactionId(d_->transactionId);
 
     AttachmentDialog d;
-    d.setModel(d_->storage.model());
+    d.setModel(&d_->model);
     qDebug() << Q_FUNC_INFO << d_->transactionId;
     d.exec();
 }  // slotAttachment

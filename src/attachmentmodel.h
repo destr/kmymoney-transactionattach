@@ -4,43 +4,39 @@
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QList>
 
-struct AttachedItem {
-    AttachedItem(const QString &f) : filename(f)
-    {}
-    QString filename;
-};
+#include "attachmentstorage.h"
+#include "abstractattachmentstorage.h"
 
-typedef QList<AttachedItem> AttachedItemList;
 
 class AttachmentModel : public QAbstractItemModel {
-    Q_OBJECT
-public:
-    enum Columns {
-        FileNameColumn,
-        ColumnCount
-    };
+  Q_OBJECT
+ public:
+  enum Columns { FileNameColumn, ColumnCount };
 
-    enum Roles {
-      FileNameRole = Qt::UserRole + 1,
-      PreviewRole,
-      ImageRole
-    };
+  enum Roles { FileNameRole = Qt::UserRole + 1, PreviewRole, ImageRole };
 
-    explicit AttachmentModel(QObject *parent = 0);
-    ~AttachmentModel();
+  explicit AttachmentModel(QObject *parent = 0);
+  ~AttachmentModel();
 
-    void setModelData(const AttachedItemList &list);
+  void addFiles(const UrlList &files);
+  void setTransactionId(const QString &transactionId);
+  void setStoragePath(const QString &path);
 
-    // QAbstractItemModel interface
-public:
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
-    QModelIndex parent(const QModelIndex &child) const;
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+  void removeSelected(QModelIndexList indexList);
 
-private:
-    AttachedItemList list_;
-private:
-    Q_DISABLE_COPY(AttachmentModel)
+  // QAbstractItemModel interface
+ public:
+  QModelIndex index(int row, int column, const QModelIndex &parent) const;
+  QModelIndex parent(const QModelIndex &child) const;
+  int rowCount(const QModelIndex &parent) const;
+  int columnCount(const QModelIndex &parent) const;
+  QVariant data(const QModelIndex &index, int role) const;
+
+ private:
+  AttachmentStorage *storage_;
+
+  AttachedItemList list_;
+
+ private:
+  Q_DISABLE_COPY(AttachmentModel)
 };

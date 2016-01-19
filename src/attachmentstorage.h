@@ -3,10 +3,18 @@
 #include <QtCore/qglobal.h>
 #include <QtCore/QScopedPointer>
 #include <QtCore/QString>
+#include <QtCore/QStringList>
 
 #include "abstractattachmentstorage.h"
 
 class AttachmentModel;
+
+struct AttachedItem {
+  AttachedItem(const QString& f) : filename(f) {}
+  QString filename;
+};
+
+typedef QList<AttachedItem> AttachedItemList;
 
 class AttachmentStorage : public AbstractAttachmentStorage {
  public:
@@ -16,12 +24,10 @@ class AttachmentStorage : public AbstractAttachmentStorage {
   const QString& transactionId() const;
   void setTransactionId(const QString& id);
 
-  AttachmentModel* model();
   void addFiles(const UrlList& files);
   void setPath(const QString& path);
-
- private:
-  void load();
+  void removeFiles(const QStringList& files);
+  AttachedItemList load();
 
  private:
   struct Private;

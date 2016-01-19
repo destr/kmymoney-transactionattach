@@ -1,3 +1,4 @@
+#include <QtCore/QDebug>
 #include <QtCore/QMap>
 #include <QtGui/QPixmap>
 
@@ -16,8 +17,8 @@ class ImageCache {
   typedef QMap<QString, Item> Cache;
 
   Item item(const QString &key) const { return cache_.value(key); }
-
   void add(const QString &key, const Item &item) { cache_.insert(key, item); }
+  void remove(const QString &key) { cache_.remove(key); }
 
  private:
   Cache cache_;
@@ -26,15 +27,40 @@ class ImageCache {
 Q_GLOBAL_STATIC(ImageCache, gImageCache)
 
 AttachmentModel::AttachmentModel(QObject *parent)
-    : QAbstractItemModel(parent) {}  // Ctor
+    : QAbstractItemModel(parent), storage_(new AttachmentStorage) {}  // Ctor
 
-AttachmentModel::~AttachmentModel() {}  // Dtor
+AttachmentModel::~AttachmentModel() { delete storage_; }  // Dtor
 
-void AttachmentModel::setModelData(const AttachedItemList &list) {
+void AttachmentModel::addFiles(const UrlList &files) {
+  storage_->addFiles(files);
+}  // addFiles
+
+void AttachmentModel::setTransactionId(const QString &transactionId) {
+  storage_->setTransactionId(transactionId);
   beginResetModel();
-  list_ = list;
+  list_ = storage_->load();
   endResetModel();
-}  // setModelData
+}  // setTransactionId
+
+void AttachmentModel::setStoragePath(const QString &path) {
+  storage_->setPath(path);
+}  // setStoragePath
+
+void AttachmentModel::removeSelected(QModelIndexList indexList) {
+  QStringList deletedFiles;
+  /// sort by one column
+  qSort(indexList);
+  for (int i = indexList.count() - 1; i >= 0; --i) {
+    const QModelIndex &index = indexList.at(i);
+    const int row = index.row();
+    const QString filename = list_.at(row).filename;
+    deletedFiles.push_back(filename);
+    beginRemoveRows(QModelIndex(), row, row);
+    list_.removeAt(row);
+    endRemoveRows();
+    gImageCache()->remove(filename);
+  }
+}  // removeSelected
 
 QModelIndex AttachmentModel::index(int row, int column,
                                    const QModelIndex &parent) const {
@@ -65,7 +91,6 @@ QVariant AttachmentModel::data(const QModelIndex &index, int role) const {
   }
   const AttachedItem &ai = list_.at(index.row());
   if (role == PreviewRole) {
-
     ImageCache::Item item = gImageCache()->item(ai.filename);
     if (item.preview.isNull()) {
       QImage image(ai.filename);
@@ -73,8 +98,8 @@ QVariant AttachmentModel::data(const QModelIndex &index, int role) const {
       if (image.width() > image.height()) {
         size.transpose();
       }
-      item.preview = QPixmap::fromImage(image.scaled(
-          size, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+      item.preview = QPixmap::fromImage(
+          image.scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       item.image = QPixmap::fromImage(image);
 
       gImageCache()->add(ai.filename, item);

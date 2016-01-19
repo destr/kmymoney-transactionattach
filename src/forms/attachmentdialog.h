@@ -19,7 +19,6 @@ class AttachmentDialog : public QDialog {
   ~AttachmentDialog();
 
   void setModel(QAbstractItemModel *model);
-  void setStorage(AttachmentStorage *storage);
 
  public slots:
   void addAttachment();

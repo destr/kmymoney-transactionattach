@@ -7,11 +7,7 @@
 #include "attachmentstorage.h"
 
 struct AttachmentStorage::Private {
-  Private() : model(new AttachmentModel) {}
-  ~Private() { delete model; }
-
   QString transactionId;
-  AttachmentModel *model;
   QDir dir;
   QString attachPath() { return dir.filePath(transactionId); }
 };
@@ -27,10 +23,7 @@ const QString &AttachmentStorage::transactionId() const {
 void AttachmentStorage::setTransactionId(const QString &id) {
   if (d_->transactionId == id) return;
   d_->transactionId = id;
-  load();
 }  // setTransactionId
-
-AttachmentModel *AttachmentStorage::model() { return d_->model; }  // model
 
 void AttachmentStorage::addFiles(const UrlList &files) {
   QDir dir(d_->attachPath());
@@ -62,13 +55,16 @@ void AttachmentStorage::addFiles(const UrlList &files) {
 
 void AttachmentStorage::setPath(const QString &path) {
   d_->dir.setPath(path);
-  load();
 }  // setPath
 
-void AttachmentStorage::load() {
-  if (d_->transactionId.isEmpty()) return;
+void AttachmentStorage::removeFiles(const QStringList &files) {
+  Q_FOREACH (const QString file, files) { QFile::remove(file); }
+}  // removeFiles
 
+AttachedItemList AttachmentStorage::load() {
   AttachedItemList list;
+  if (d_->transactionId.isEmpty()) return list;
+
   const QString path = d_->attachPath();
   qDebug() << "Load from: " << path;
 
@@ -82,5 +78,5 @@ void AttachmentStorage::load() {
     list.push_back(AttachedItem(QString("filename_%1").arg(i)));
   }
 #endif
-  d_->model->setModelData(list);
+  return list;
 }  // load

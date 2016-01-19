@@ -1,3 +1,4 @@
+#include <QtCore/qglobal.h>
 #include <QtCore/QDebug>
 #include <QtGui/QApplication>
 
@@ -9,13 +10,16 @@ int main(int argc, char **argv) {
 
   QApplication apl(argc, argv);
 
-  AttachmentStorage storage;
-  storage.setPath("R:/attach");
-  storage.setTransactionId("T0001");
+  AttachmentModel model;
+#if defined(Q_OS_WIN)
+  model.setStoragePath("R:/attach");
+#else
+  model.setStoragePath("/tmp/attach");
+#endif
+  model.setTransactionId("T0001");
 
   AttachmentDialog d;
-  d.setModel(storage.model());
-  d.setStorage(&storage);
+  d.setModel(&model);
 
   d.show();
   return apl.exec();

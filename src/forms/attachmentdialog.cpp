@@ -40,19 +40,24 @@ void AttachmentDialog::setModel(QAbstractItemModel *model) {
           this, SLOT(slot_currentRowChanged(QModelIndex, QModelIndex)));
 }  // setModel
 
-void AttachmentDialog::setStorage(AttachmentStorage *storage) {
-  ui->listView->setStorage(storage);
-}  // setStorage
-
 void AttachmentDialog::addAttachment() {
   qDebug() << Q_FUNC_INFO;
 }  // addAttachment
 
-void AttachmentDialog::removeAttachment() { qDebug() << Q_FUNC_INFO; }
+void AttachmentDialog::removeAttachment() {
+  QModelIndexList indexList;
+  QItemSelectionModel *selection = ui->listView->selectionModel();
+  if (!selection) return;
+  indexList = selection->selectedRows();
+
+  AttachmentModel *model =
+      qobject_cast<AttachmentModel *>(ui->listView->model());
+  if (!model) return;
+  model->removeSelected(indexList);
+}  // removeAttachment
 
 void AttachmentDialog::slot_currentRowChanged(const QModelIndex &current,
-                                            const QModelIndex &previous) {
-
+                                              const QModelIndex &previous) {
   Q_UNUSED(previous);
   label_->setPixmap(current.data(AttachmentModel::ImageRole).value<QPixmap>());
 }  // removeAttachment
