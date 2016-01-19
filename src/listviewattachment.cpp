@@ -6,6 +6,9 @@
 #include "attachdelegate.h"
 #include "listviewattachment.h"
 
+/// ориентация А6 портретная
+const QSize ListViewAttachment::previewSize(105, 148);
+
 ListViewAttachment::ListViewAttachment(QWidget* parent)
     : QListView(parent), storage_(0) {
   setAcceptDrops(true);

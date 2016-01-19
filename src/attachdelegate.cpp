@@ -21,17 +21,16 @@ void AttachDelegate::paint(QPainter* painter,
   painter->save();
 
   const QRect r = option.rect;
-  const qreal pwidth = ListViewAttachment::maxPreviewWidth;
-  const qreal pheight = ListViewAttachment::maxPreviewHeight;
-
-  const QPointF top(r.x() + (r.width() - pwidth) / 2,
-                    r.y() + (r.height() - pheight) / 2);
-
-  const QRectF p(top, QSize(pwidth, pheight));
-
-  painter->drawRect(p);
 
   QPixmap preview = index.data(AttachmentModel::PreviewRole).value<QPixmap>();
+  QSize psize = preview.size();
+
+  const QPointF top(r.x() + (r.width() - psize.width()) / 2,
+                    r.y() + (r.height() - psize.height()) / 2);
+
+  const QRectF p(top, psize);
+
+  painter->drawRect(p);
 
   painter->drawPixmap(p, preview, preview.rect());
 
@@ -40,6 +39,7 @@ void AttachDelegate::paint(QPainter* painter,
 
 QSize AttachDelegate::sizeHint(const QStyleOptionViewItem& option,
                                const QModelIndex& index) const {
-  return QSize(ListViewAttachment::maxPreviewWidth,
-               ListViewAttachment::maxPreviewHeight + 10);
+
+  QSize size = index.data(AttachmentModel::PreviewRole).value<QPixmap>().size();
+  return size + QSize(0, 10);
 }  // sizeHint

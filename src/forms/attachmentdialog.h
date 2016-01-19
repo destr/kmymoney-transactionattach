@@ -2,8 +2,8 @@
 
 #include <QtCore/qglobal.h>
 #include <QtCore/QAbstractItemModel>
-
 #include <QtGui/QDialog>
+#include <QtGui/QLabel>
 
 #include "attachmentstorage.h"
 
@@ -12,22 +12,27 @@ class AttachmentDialog;
 }
 
 class AttachmentDialog : public QDialog {
-    Q_OBJECT
+  Q_OBJECT
 
-public:
-    explicit AttachmentDialog(QWidget *parent = 0);
-    ~AttachmentDialog();
+ public:
+  explicit AttachmentDialog(QWidget *parent = 0);
+  ~AttachmentDialog();
 
-    void setModel(QAbstractItemModel *model);
-    void setStorage(AttachmentStorage *storage);
+  void setModel(QAbstractItemModel *model);
+  void setStorage(AttachmentStorage *storage);
 
-public slots:
-    void addAttachment();
-    void removeAttachment();
+ public slots:
+  void addAttachment();
+  void removeAttachment();
 
-private:
-    Ui::AttachmentDialog *ui;
+ private slots:
+  void slot_currentRowChanged(const QModelIndex &current,
+                            const QModelIndex &previous);
 
-private:
-    Q_DISABLE_COPY(AttachmentDialog)
+ private:
+  Ui::AttachmentDialog *ui;
+  QLabel *label_;
+
+ private:
+  Q_DISABLE_COPY(AttachmentDialog)
 };

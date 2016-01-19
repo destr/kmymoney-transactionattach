@@ -1,5 +1,7 @@
 #include <QtCore/QDebug>
+#include <QtGui/QLabel>
 
+#include "attachmentmodel.h"
 #include "attachmentdialog.h"
 #include "ui_attachmentdialog.h"
 
@@ -8,22 +10,37 @@ AttachmentDialog::AttachmentDialog(QWidget *parent)
   ui->setupUi(this);
 
   connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(addAttachment()));
-  connect(ui->actionRemove, SIGNAL(triggered()), this, SLOT(removeAttachment()));
+  connect(ui->actionRemove, SIGNAL(triggered()), this,
+          SLOT(removeAttachment()));
 
   ui->toolButtonAdd->setDefaultAction(ui->actionAdd);
   ui->toolButtonRemove->setDefaultAction(ui->actionRemove);
 
   ui->listView->addAction(ui->actionAdd);
   ui->listView->addAction(ui->actionRemove);
+
+  label_ = new QLabel(this);
+  ui->scrollArea->setBackgroundRole(QPalette::Dark);
+  ui->scrollArea->setWidget(label_);
 }  // Ctor
 
 AttachmentDialog::~AttachmentDialog() { delete ui; }  // Dtor
 
 void AttachmentDialog::setModel(QAbstractItemModel *model) {
+  QItemSelectionModel *selectionModel = ui->listView->selectionModel();
+  if (selectionModel) {
+    disconnect(selectionModel,
+               SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this,
+               SLOT(slot_currentRowChanged(QModelIndex, QModelIndex)));
+  }
   ui->listView->setModel(model);
+
+  selectionModel = ui->listView->selectionModel();
+  connect(selectionModel, SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+          this, SLOT(slot_currentRowChanged(QModelIndex, QModelIndex)));
 }  // setModel
 
-void AttachmentDialog::setStorage(AttachmentStorage* storage) {
+void AttachmentDialog::setStorage(AttachmentStorage *storage) {
   ui->listView->setStorage(storage);
 }  // setStorage
 
@@ -31,6 +48,11 @@ void AttachmentDialog::addAttachment() {
   qDebug() << Q_FUNC_INFO;
 }  // addAttachment
 
-void AttachmentDialog::removeAttachment() {
-  qDebug() << Q_FUNC_INFO;
+void AttachmentDialog::removeAttachment() { qDebug() << Q_FUNC_INFO; }
+
+void AttachmentDialog::slot_currentRowChanged(const QModelIndex &current,
+                                            const QModelIndex &previous) {
+
+  Q_UNUSED(previous);
+  label_->setPixmap(current.data(AttachmentModel::ImageRole).value<QPixmap>());
 }  // removeAttachment

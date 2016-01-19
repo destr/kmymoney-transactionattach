@@ -1,5 +1,4 @@
 #include <QtCore/QMap>
-#include <QtGui/QImage>
 #include <QtGui/QPixmap>
 
 #include "attachmentmodel.h"
@@ -9,9 +8,9 @@ class ImageCache {
  public:
   struct Item {
     Item() {}
-    Item(const QPixmap &p, const QImage &i) : preview(p), image(i) {}
+    Item(const QPixmap &p, const QPixmap &i) : preview(p), image(i) {}
     QPixmap preview;
-    QImage image;
+    QPixmap image;
     bool isNull() { return preview.isNull(); }
   };
   typedef QMap<QString, Item> Cache;
@@ -64,20 +63,26 @@ QVariant AttachmentModel::data(const QModelIndex &index, int role) const {
   if (role == FileNameRole) {
     return list_.at(index.row()).filename;
   }
+  const AttachedItem &ai = list_.at(index.row());
   if (role == PreviewRole) {
-    const AttachedItem &ai = list_.at(index.row());
 
     ImageCache::Item item = gImageCache()->item(ai.filename);
     if (item.preview.isNull()) {
-      item.image = QImage(ai.filename);
-      item.preview = QPixmap::fromImage(
-          item.image.scaled(ListViewAttachment::maxPreviewWidth,
-                            ListViewAttachment::maxPreviewHeight,
-                            Qt::KeepAspectRatio, Qt::SmoothTransformation));
+      QImage image(ai.filename);
+      QSize size(ListViewAttachment::previewSize);
+      if (image.width() > image.height()) {
+        size.transpose();
+      }
+      item.preview = QPixmap::fromImage(image.scaled(
+          size, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+      item.image = QPixmap::fromImage(image);
 
       gImageCache()->add(ai.filename, item);
     }
     return QVariant::fromValue(item.preview);
+  }
+  if (role == ImageRole) {
+    return QVariant::fromValue(gImageCache()->item(ai.filename).image);
   }
 
   //    if (role != Qt::DisplayRole) return QVariant();
