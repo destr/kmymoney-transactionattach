@@ -71,7 +71,16 @@ void AttachmentModel::removeSelected(QModelIndexList indexList) {
     endRemoveRows();
     gImageCache()->remove(filename);
   }
+  storage_->removeFiles(deletedFiles);
 }  // removeSelected
+
+void AttachmentModel::commit() {
+    storage_->commit();
+}  // commit
+
+void AttachmentModel::rollback() {
+    storage_->rollback();
+}  // rollback
 
 QModelIndex AttachmentModel::index(int row, int column,
                                    const QModelIndex &parent) const {

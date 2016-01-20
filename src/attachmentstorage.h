@@ -33,6 +33,18 @@ class AttachmentStorage : public AbstractAttachmentStorage {
   void removeFiles(const QStringList& files);
   AttachedItemList load();
 
+  void commit();
+  void rollback();
+
+private:
+
+  enum EndType{
+      Rollback,
+      Commit
+  };
+
+  void internalEnd(EndType type);
+
  private:
   struct Private;
   QScopedPointer<Private> d_;

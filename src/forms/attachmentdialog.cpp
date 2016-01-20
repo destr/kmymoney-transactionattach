@@ -18,6 +18,9 @@ AttachmentDialog::AttachmentDialog(QWidget *parent)
   connect(ui->actionFitToScreen, SIGNAL(triggered(bool)), this,
           SLOT(fitToScreen(bool)));
 
+  connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accepted()));
+  connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(rejected()));
+
   ui->toolButtonAdd->setDefaultAction(ui->actionAdd);
   ui->toolButtonRemove->setDefaultAction(ui->actionRemove);
 
@@ -75,7 +78,7 @@ void AttachmentDialog::fitToScreen(bool checked) {
     size = viewportSize();
     label_->resize(size);
   } else {
-      label_->resetToOrigPixmap();
+    label_->resetToOrigPixmap();
   }
 }  // fitToScreen
 
@@ -88,8 +91,23 @@ void AttachmentDialog::slot_currentRowChanged(const QModelIndex &current,
     size = viewportSize();
   }
   label_->setPixmap(pixmap, size);
-
 }  // slot_currentRowChanged
+
+void AttachmentDialog::accepted() {
+  AttachmentModel *model = attachmentModel();
+  if (model) {
+    model->commit();
+  }
+  accept();
+}  // accepted
+
+void AttachmentDialog::rejected() {
+  AttachmentModel *model = attachmentModel();
+  if (model) {
+    model->rollback();
+  }
+  reject();
+}  // rejected
 
 AttachmentModel *AttachmentDialog::attachmentModel() {
   return qobject_cast<AttachmentModel *>(ui->listView->model());

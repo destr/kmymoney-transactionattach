@@ -29,6 +29,8 @@ class AttachmentDialog : public QDialog {
  private slots:
   void slot_currentRowChanged(const QModelIndex &current,
                             const QModelIndex &previous);
+  void accepted();
+  void rejected();
 
 private:
   AttachmentModel* attachmentModel();

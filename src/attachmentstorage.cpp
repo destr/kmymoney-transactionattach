@@ -1,3 +1,4 @@
+#include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QUrl>
@@ -5,6 +6,11 @@
 
 #include "attachmentmodel.h"
 #include "attachmentstorage.h"
+
+namespace {
+const QString newPrefix = "+";
+const QString removePrefix = "-";
+}
 
 struct AttachmentStorage::Private {
   QString transactionId;
@@ -32,7 +38,6 @@ void AttachmentStorage::addFiles(const QStringList &files) {
   }
   int counter(dir.count());
   Q_FOREACH (const QString &filename, files) {
-
     QImageReader reader(filename);
     if (reader.format().isEmpty()) {
       continue;
@@ -40,9 +45,11 @@ void AttachmentStorage::addFiles(const QStringList &files) {
 
     QFile origFile(filename);
     QFileInfo finfo(filename);
-    if (!origFile.copy(QString("%1/%2.%3")
+    if (!origFile.copy(QString("%1/%2%3_%4.%5")
                            .arg(d_->attachPath())
+                           .arg(newPrefix)
                            .arg(counter)
+                           .arg(QDateTime::currentMSecsSinceEpoch())
                            .arg(finfo.suffix()))) {
       qDebug() << "Copy file error: " << origFile.errorString();
       continue;
@@ -56,7 +63,16 @@ void AttachmentStorage::setPath(const QString &path) {
 }  // setPath
 
 void AttachmentStorage::removeFiles(const QStringList &files) {
-  Q_FOREACH (const QString file, files) { QFile::remove(file); }
+  QDir dir(d_->attachPath());
+  Q_FOREACH (const QString &filepath, files) {
+    QFileInfo fi(filepath);
+    const QString filename(fi.fileName());
+    if (filename.startsWith(newPrefix)) {
+        dir.remove(filename);
+    } else {
+        dir.rename(filename, removePrefix + filename);
+    }
+  }
 }  // removeFiles
 
 AttachedItemList AttachmentStorage::load() {
@@ -74,6 +90,36 @@ AttachedItemList AttachmentStorage::load() {
   return list;
 }  // load
 
-uint qHash(const AttachedItem &item) {
-  return qHash(item.filename);
-}
+void AttachmentStorage::commit() { internalEnd(Commit); }  // commit
+
+void AttachmentStorage::rollback() { internalEnd(Rollback); }  // rollback
+
+void AttachmentStorage::internalEnd(AttachmentStorage::EndType type) {
+  QDir dir(d_->attachPath());
+  QStringList filters;
+  filters << newPrefix + "*";
+  filters << removePrefix + "*";
+  Q_FOREACH (const QString &filename, dir.entryList(filters, QDir::Files)) {
+    if (filename.startsWith(newPrefix)) {
+      switch (type) {
+        case Rollback:
+          dir.remove(filename);
+          break;
+        case Commit:
+          dir.rename(filename, filename.right(filename.count() - 1));
+          break;
+      }
+    } else if (filename.startsWith(removePrefix)) {
+      switch (type) {
+        case Rollback:
+          dir.rename(filename, filename.right(filename.count() - 1));
+          break;
+        case Commit:
+          dir.remove(filename);
+          break;
+      }
+    }
+  }
+}  // internalEnd
+
+uint qHash(const AttachedItem &item) { return qHash(item.filename); }

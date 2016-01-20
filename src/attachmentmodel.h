@@ -24,6 +24,9 @@ class AttachmentModel : public QAbstractItemModel {
 
   void removeSelected(QModelIndexList indexList);
 
+  void commit();
+  void rollback();
+
   // QAbstractItemModel interface
  public:
   QModelIndex index(int row, int column, const QModelIndex &parent) const;

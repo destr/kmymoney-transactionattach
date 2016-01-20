@@ -39,7 +39,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>57</width>
+         <width>63</width>
          <height>542</height>
         </rect>
        </property>
@@ -48,7 +48,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0">
      <item>
       <widget class="QToolButton" name="toolButtonAdd">
        <property name="text">
@@ -76,10 +76,20 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
   <action name="actionAdd">
+   <property name="icon">
+    <iconset theme="archive-insert"/>
+   </property>
    <property name="text">
     <string>Add</string>
    </property>
@@ -88,6 +98,9 @@
    </property>
   </action>
   <action name="actionRemove">
+   <property name="icon">
+    <iconset theme="archive-remove"/>
+   </property>
    <property name="text">
     <string>Remove</string>
    </property>
@@ -95,6 +108,9 @@
   <action name="actionFitToScreen">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="zoom-fit-best"/>
    </property>
    <property name="text">
     <string>Fit to screen</string>
