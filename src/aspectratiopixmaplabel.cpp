@@ -5,7 +5,7 @@
 
 AspectRatioPixmapLabel::AspectRatioPixmapLabel(QWidget* parent)
     : QLabel(parent) {
-  //setMinimumSize(1, 1);
+  // setMinimumSize(1, 1);
 }  // Ctor
 
 QSize AspectRatioPixmapLabel::sizeHint() const {
@@ -18,21 +18,27 @@ int AspectRatioPixmapLabel::heightForWidth(int width) const {
   return (pixmap_.height() * width) / pixmap_.width();
 }  // heightForWidth
 
-void AspectRatioPixmapLabel::setPixmap(const QPixmap& pixmap) {
-  qDebug() << Q_FUNC_INFO;
+void AspectRatioPixmapLabel::resetToOrigPixmap() {
+  internalSetPixmap(QSize());
+}  // resetToOrigPixmap
+
+void AspectRatioPixmapLabel::setPixmap(const QPixmap& pixmap,
+                                       const QSize& size) {
   pixmap_ = pixmap;
-  QLabel::setPixmap(pixmap_);
+
+  internalSetPixmap(size);
 }  // setPixmap
 
 void AspectRatioPixmapLabel::resizeEvent(QResizeEvent* event) {
   if (pixmap_.isNull()) return;
+  internalSetPixmap(event->size());
+}  // resizeEvent
 
-  if (event->size().isNull()) {
+void AspectRatioPixmapLabel::internalSetPixmap(const QSize& size) {
+  if (!size.isValid()) {
     QLabel::setPixmap(pixmap_);
     return;
   }
-
   QLabel::setPixmap(
-      pixmap_.scaled(event->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-}  // resizeEvent
+      pixmap_.scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}

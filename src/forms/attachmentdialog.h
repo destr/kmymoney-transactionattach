@@ -30,7 +30,9 @@ class AttachmentDialog : public QDialog {
   void slot_currentRowChanged(const QModelIndex &current,
                             const QModelIndex &previous);
 
+private:
   AttachmentModel* attachmentModel();
+  QSize viewportSize() const;
 
  private:
   Ui::AttachmentDialog *ui;

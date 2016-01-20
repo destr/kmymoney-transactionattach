@@ -25,7 +25,7 @@ AttachmentDialog::AttachmentDialog(QWidget *parent)
   ui->listView->addAction(ui->actionRemove);
 
   label_ = new AspectRatioPixmapLabel(this);
-  //label_->setScaledContents(true);
+  // label_->setScaledContents(true);
   ui->scrollArea->setBackgroundRole(QPalette::Dark);
   ui->scrollArea->setWidget(label_);
   ui->scrollArea->addAction(ui->actionFitToScreen);
@@ -70,23 +70,39 @@ void AttachmentDialog::removeAttachment() {
 }  // removeAttachment
 
 void AttachmentDialog::fitToScreen(bool checked) {
-  QSize size(0, 0);
+  QSize size;
   if (checked) {
-    size = ui->scrollArea->viewport()->size();
-    size.rheight() += ui->scrollArea->horizontalScrollBar()->height();
-    size.rwidth() += ui->scrollArea->verticalScrollBar()->width();
-    qDebug() << Q_FUNC_INFO << size;
+    size = viewportSize();
+    label_->resize(size);
+  } else {
+      label_->resetToOrigPixmap();
   }
-  label_->resize(size);
-
 }  // fitToScreen
 
 void AttachmentDialog::slot_currentRowChanged(const QModelIndex &current,
                                               const QModelIndex &previous) {
   Q_UNUSED(previous);
-  label_->setPixmap(current.data(AttachmentModel::ImageRole).value<QPixmap>());
-}  // removeAttachment
+  QPixmap pixmap = current.data(AttachmentModel::ImageRole).value<QPixmap>();
+  QSize size;
+  if (ui->actionFitToScreen->isChecked()) {
+    size = viewportSize();
+  }
+  label_->setPixmap(pixmap, size);
+
+}  // slot_currentRowChanged
 
 AttachmentModel *AttachmentDialog::attachmentModel() {
   return qobject_cast<AttachmentModel *>(ui->listView->model());
 }  // attachmentModel
+
+QSize AttachmentDialog::viewportSize() const {
+  QScrollArea *area = ui->scrollArea;
+  QSize size = area->viewport()->size();
+  if (area->horizontalScrollBar()->isVisible()) {
+    size.rheight() += area->horizontalScrollBar()->height();
+  }
+  if (area->verticalScrollBar()->isVisible()) {
+    size.rwidth() += area->verticalScrollBar()->width();
+  }
+  return size;
+}  // viewportSize

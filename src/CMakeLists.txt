@@ -11,6 +11,7 @@ include_directories(/usr/include/kmymoney
 ########### next target ###############
 
 set(kmm_transactionattach_PART_SRCS
+    aspectratiopixmaplabel.cpp
     attachdelegate.cpp
     attachmentmodel.cpp
     attachmentstorage.cpp
@@ -22,6 +23,7 @@ set(kmm_transactionattach_PART_SRCS
     )
 set(kmm_transactionattach_PART_HEADERS 
     abstractattachmentstorage.h
+    aspectratiopixmaplabel.h
     attachdelegate.h
     attachmentmodel.h
     attachmentstoragefactory.h

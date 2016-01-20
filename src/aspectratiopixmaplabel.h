@@ -14,12 +14,16 @@ class AspectRatioPixmapLabel : public QLabel {
   virtual QSize sizeHint() const;
   virtual int heightForWidth(int width) const;
 
-public slots:
-  void setPixmap(const QPixmap &pixmap);
+  void resetToOrigPixmap();
+ public slots:
+  void setPixmap(const QPixmap &pixmap, const QSize &size = QSize());
 
   // QWidget interface
  protected:
   void resizeEvent(QResizeEvent *event);
+
+ private:
+  void internalSetPixmap(const QSize &size);
 
  private:
   QPixmap pixmap_;
