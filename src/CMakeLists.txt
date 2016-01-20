@@ -10,7 +10,7 @@ include_directories(/usr/include/kmymoney
 
 ########### next target ###############
 
-set(kmm_transactionattach_PART_SRCS
+set(kmm_transactionattach_PART_SOURCES
     aspectratiopixmaplabel.cpp
     attachdelegate.cpp
     attachmentmodel.cpp
@@ -37,7 +37,7 @@ set(kmm_transactionattach_PART_HEADERS
 
 kde4_add_kcfg_files(kmm_transactionattach_PART_SOURCES pluginsettings.kcfgc)
 kde4_add_plugin(kmm_transactionattach
-    ${kmm_transactionattach_PART_SRCS}
+    ${kmm_transactionattach_PART_SOURCES}
     ${kmm_transactionattach_PART_HEADERS}
     )
 

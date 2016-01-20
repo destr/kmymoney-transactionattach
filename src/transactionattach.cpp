@@ -9,6 +9,7 @@
 #include <kmymoney/pluginloader.h>
 #include <kmymoney/selectedtransaction.h>
 
+#include "pluginsettings.h"
 #include "attachmentdialog.h"
 #include "attachmentmodel.h"
 #include "attachmentstorage.h"
@@ -65,7 +66,7 @@ void TransactionAttach::slotAttachment() {
 
     /// TODO reload()
     d_->model.setTransactionId(d_->transactionId);
-
+    //qDebug() << PluginSettings::lineEditPath();
     AttachmentDialog d;
     d.setModel(&d_->model);
     qDebug() << Q_FUNC_INFO << d_->transactionId;
