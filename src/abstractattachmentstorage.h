@@ -11,7 +11,7 @@ class AbstractAttachmentStorage : public QObject {
   Q_OBJECT
 public:
   AbstractAttachmentStorage() {}
-  virtual void addFiles(const UrlList &list) = 0;
+  virtual void addFiles(const QStringList &list) = 0;
   virtual void setPath(const QString &path) = 0;
   virtual void removeFiles(const QStringList &list) = 0;
 

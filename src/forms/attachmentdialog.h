@@ -28,6 +28,8 @@ class AttachmentDialog : public QDialog {
   void slot_currentRowChanged(const QModelIndex &current,
                             const QModelIndex &previous);
 
+  AttachmentModel* attachmentModel();
+
  private:
   Ui::AttachmentDialog *ui;
   QLabel *label_;

@@ -1,4 +1,5 @@
 #include <QtCore/QDebug>
+#include <QtGui/QFileDialog>
 #include <QtGui/QLabel>
 
 #include "attachmentmodel.h"
@@ -41,7 +42,14 @@ void AttachmentDialog::setModel(QAbstractItemModel *model) {
 }  // setModel
 
 void AttachmentDialog::addAttachment() {
-  qDebug() << Q_FUNC_INFO;
+  QStringList files = QFileDialog::getOpenFileNames(this,
+                                                    tr("Select files"),
+                                                    QString(), "");
+
+  AttachmentModel *model = attachmentModel();
+  if (!model) return;
+
+  model->addFiles(files);
 }  // addAttachment
 
 void AttachmentDialog::removeAttachment() {
@@ -50,8 +58,7 @@ void AttachmentDialog::removeAttachment() {
   if (!selection) return;
   indexList = selection->selectedRows();
 
-  AttachmentModel *model =
-      qobject_cast<AttachmentModel *>(ui->listView->model());
+  AttachmentModel *model = attachmentModel();
   if (!model) return;
   model->removeSelected(indexList);
 }  // removeAttachment
@@ -61,3 +68,7 @@ void AttachmentDialog::slot_currentRowChanged(const QModelIndex &current,
   Q_UNUSED(previous);
   label_->setPixmap(current.data(AttachmentModel::ImageRole).value<QPixmap>());
 }  // removeAttachment
+
+AttachmentModel*AttachmentDialog::attachmentModel() {
+  return qobject_cast<AttachmentModel *>(ui->listView->model());
+}  // attachmentModel

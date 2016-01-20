@@ -16,17 +16,6 @@ ListViewAttachment::ListViewAttachment(QWidget* parent)
   setItemDelegate(new AttachDelegate(this));
   setMaximumWidth(200);
 }  // Ctor
-#if 0
-void ListViewAttachment::removeAttachment() {
-  QItemSelectionModel* selection = selectionModel();
-  if (!selection) return;
-  Q_FOREACH (QModelIndex index, selection->selectedRows()) {
-    const QString filename =
-        index.data(AttachmentModel::FileNameRole).toString();
-    storage_->removeFile(filename);
-  }
-}  // removeAttachment
-#endif
 
 void ListViewAttachment::dragEnterEvent(QDragEnterEvent* event) {
   if (!event->mimeData()->hasUrls()) return;
@@ -38,7 +27,15 @@ void ListViewAttachment::dropEvent(QDropEvent* event) {
   event->acceptProposedAction();
   AttachmentModel *model = qobject_cast<AttachmentModel*>(this->model());
   if (!model) return;
-  model->addFiles(event->mimeData()->urls());
+
+  QStringList list;
+  Q_FOREACH(const QUrl &url, event->mimeData()->urls()) {
+    if (url.isLocalFile()) {
+      list.push_back(url.toLocalFile());
+    }
+  }
+
+  model->addFiles(list);
 }  // dropEvent
 
 void ListViewAttachment::dragMoveEvent(QDragMoveEvent* event) {

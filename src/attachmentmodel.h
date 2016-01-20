@@ -18,7 +18,7 @@ class AttachmentModel : public QAbstractItemModel {
   explicit AttachmentModel(QObject *parent = 0);
   ~AttachmentModel();
 
-  void addFiles(const UrlList &files);
+  void addFiles(const QStringList& files);
   void setTransactionId(const QString &transactionId);
   void setStoragePath(const QString &path);
 

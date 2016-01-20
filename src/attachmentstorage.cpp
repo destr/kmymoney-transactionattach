@@ -25,16 +25,14 @@ void AttachmentStorage::setTransactionId(const QString &id) {
   d_->transactionId = id;
 }  // setTransactionId
 
-void AttachmentStorage::addFiles(const UrlList &files) {
+void AttachmentStorage::addFiles(const QStringList &files) {
   QDir dir(d_->attachPath());
   if (!dir.exists()) {
     dir.mkpath(".");
   }
   int counter(dir.count());
-  Q_FOREACH (QUrl url, files) {
-    if (!url.isLocalFile()) continue;
+  Q_FOREACH (const QString &filename, files) {
 
-    const QString filename(url.toLocalFile());
     QImageReader reader(filename);
     if (reader.format().isEmpty()) {
       continue;
@@ -73,10 +71,9 @@ AttachedItemList AttachmentStorage::load() {
     list.push_back(AttachedItem(dir.filePath(filename)));
   }
 
-#if 0
-  for (int i = 0; i < 10; ++i) {
-    list.push_back(AttachedItem(QString("filename_%1").arg(i)));
-  }
-#endif
   return list;
 }  // load
+
+uint qHash(const AttachedItem &item) {
+  return qHash(item.filename);
+}

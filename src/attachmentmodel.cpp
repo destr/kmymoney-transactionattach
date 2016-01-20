@@ -1,5 +1,6 @@
 #include <QtCore/QDebug>
 #include <QtCore/QMap>
+#include <QtCore/QSet>
 #include <QtGui/QPixmap>
 
 #include "attachmentmodel.h"
@@ -31,8 +32,18 @@ AttachmentModel::AttachmentModel(QObject *parent)
 
 AttachmentModel::~AttachmentModel() { delete storage_; }  // Dtor
 
-void AttachmentModel::addFiles(const UrlList &files) {
+void AttachmentModel::addFiles(const QStringList &files) {
   storage_->addFiles(files);
+
+  typedef QSet<AttachedItem> AttachedItemSet;
+  AttachedItemSet newFiles = storage_->load().toSet();
+  AttachedItemSet oldFiles = list_.toSet();
+  newFiles.subtract(oldFiles);
+
+  const int count = list_.count();
+  beginInsertRows(QModelIndex(), count, count + newFiles.count());
+  list_.append(AttachedItemList::fromSet(newFiles));
+  endInsertRows();
 }  // addFiles
 
 void AttachmentModel::setTransactionId(const QString &transactionId) {

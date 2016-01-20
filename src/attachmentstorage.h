@@ -10,9 +10,13 @@
 class AttachmentModel;
 
 struct AttachedItem {
-  AttachedItem(const QString& f) : filename(f) {}
+  explicit AttachedItem(const QString& f) : filename(f) {}
   QString filename;
+  bool operator==(const AttachedItem& rhs) const {
+    return filename == rhs.filename;
+  }
 };
+uint qHash(const AttachedItem& item);
 
 typedef QList<AttachedItem> AttachedItemList;
 
@@ -24,7 +28,7 @@ class AttachmentStorage : public AbstractAttachmentStorage {
   const QString& transactionId() const;
   void setTransactionId(const QString& id);
 
-  void addFiles(const UrlList& files);
+  void addFiles(const QStringList& files);
   void setPath(const QString& path);
   void removeFiles(const QStringList& files);
   AttachedItemList load();
