@@ -28,6 +28,9 @@
       </property>
      </widget>
      <widget class="QScrollArea" name="scrollArea">
+      <property name="contextMenuPolicy">
+       <enum>Qt::ActionsContextMenu</enum>
+      </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
@@ -36,7 +39,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>63</width>
+         <width>57</width>
          <height>542</height>
         </rect>
        </property>
@@ -87,6 +90,14 @@
   <action name="actionRemove">
    <property name="text">
     <string>Remove</string>
+   </property>
+  </action>
+  <action name="actionFitToScreen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Fit to screen</string>
    </property>
   </action>
  </widget>

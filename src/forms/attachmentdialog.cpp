@@ -1,9 +1,11 @@
 #include <QtCore/QDebug>
 #include <QtGui/QFileDialog>
 #include <QtGui/QLabel>
+#include <QtGui/QScrollBar>
 
-#include "attachmentmodel.h"
+#include "aspectratiopixmaplabel.h"
 #include "attachmentdialog.h"
+#include "attachmentmodel.h"
 #include "ui_attachmentdialog.h"
 
 AttachmentDialog::AttachmentDialog(QWidget *parent)
@@ -13,6 +15,8 @@ AttachmentDialog::AttachmentDialog(QWidget *parent)
   connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(addAttachment()));
   connect(ui->actionRemove, SIGNAL(triggered()), this,
           SLOT(removeAttachment()));
+  connect(ui->actionFitToScreen, SIGNAL(triggered(bool)), this,
+          SLOT(fitToScreen(bool)));
 
   ui->toolButtonAdd->setDefaultAction(ui->actionAdd);
   ui->toolButtonRemove->setDefaultAction(ui->actionRemove);
@@ -20,9 +24,12 @@ AttachmentDialog::AttachmentDialog(QWidget *parent)
   ui->listView->addAction(ui->actionAdd);
   ui->listView->addAction(ui->actionRemove);
 
-  label_ = new QLabel(this);
+  label_ = new AspectRatioPixmapLabel(this);
+  //label_->setScaledContents(true);
   ui->scrollArea->setBackgroundRole(QPalette::Dark);
   ui->scrollArea->setWidget(label_);
+  ui->scrollArea->addAction(ui->actionFitToScreen);
+
 }  // Ctor
 
 AttachmentDialog::~AttachmentDialog() { delete ui; }  // Dtor
@@ -42,9 +49,8 @@ void AttachmentDialog::setModel(QAbstractItemModel *model) {
 }  // setModel
 
 void AttachmentDialog::addAttachment() {
-  QStringList files = QFileDialog::getOpenFileNames(this,
-                                                    tr("Select files"),
-                                                    QString(), "");
+  QStringList files =
+      QFileDialog::getOpenFileNames(this, tr("Select files"), QString(), "");
 
   AttachmentModel *model = attachmentModel();
   if (!model) return;
@@ -63,12 +69,24 @@ void AttachmentDialog::removeAttachment() {
   model->removeSelected(indexList);
 }  // removeAttachment
 
+void AttachmentDialog::fitToScreen(bool checked) {
+  QSize size(0, 0);
+  if (checked) {
+    size = ui->scrollArea->viewport()->size();
+    size.rheight() += ui->scrollArea->horizontalScrollBar()->height();
+    size.rwidth() += ui->scrollArea->verticalScrollBar()->width();
+    qDebug() << Q_FUNC_INFO << size;
+  }
+  label_->resize(size);
+
+}  // fitToScreen
+
 void AttachmentDialog::slot_currentRowChanged(const QModelIndex &current,
                                               const QModelIndex &previous) {
   Q_UNUSED(previous);
   label_->setPixmap(current.data(AttachmentModel::ImageRole).value<QPixmap>());
 }  // removeAttachment
 
-AttachmentModel*AttachmentDialog::attachmentModel() {
+AttachmentModel *AttachmentDialog::attachmentModel() {
   return qobject_cast<AttachmentModel *>(ui->listView->model());
 }  // attachmentModel

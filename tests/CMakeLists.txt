@@ -1,5 +1,6 @@
 set(storage_tester_SOURCES
     storage_tester.cpp
+    ${CMAKE_SOURCE_DIR}/src/aspectratiopixmaplabel.cpp
     ${CMAKE_SOURCE_DIR}/src/attachmentstorage.cpp
     ${CMAKE_SOURCE_DIR}/src/attachmentmodel.cpp
     ${CMAKE_SOURCE_DIR}/src/forms/attachmentdialog.cpp
@@ -10,6 +11,7 @@ set(storage_tester_SOURCES
 
   set (storage_tester_HEADERS
     ${CMAKE_SOURCE_DIR}/src/abstractattachmentstorage.h
+    ${CMAKE_SOURCE_DIR}/src/aspectratiopixmaplabel.h
     )
 
 

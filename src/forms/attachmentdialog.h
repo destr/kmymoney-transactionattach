@@ -3,13 +3,14 @@
 #include <QtCore/qglobal.h>
 #include <QtCore/QAbstractItemModel>
 #include <QtGui/QDialog>
-#include <QtGui/QLabel>
 
 #include "attachmentstorage.h"
 
 namespace Ui {
 class AttachmentDialog;
 }
+
+class AspectRatioPixmapLabel;
 
 class AttachmentDialog : public QDialog {
   Q_OBJECT
@@ -23,6 +24,7 @@ class AttachmentDialog : public QDialog {
  public slots:
   void addAttachment();
   void removeAttachment();
+  void fitToScreen(bool checked);
 
  private slots:
   void slot_currentRowChanged(const QModelIndex &current,
@@ -32,7 +34,7 @@ class AttachmentDialog : public QDialog {
 
  private:
   Ui::AttachmentDialog *ui;
-  QLabel *label_;
+  AspectRatioPixmapLabel *label_;
 
  private:
   Q_DISABLE_COPY(AttachmentDialog)
