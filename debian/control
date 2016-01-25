@@ -1,0 +1,13 @@
+Source: kmymoney-transactionattach
+Maintainer: Alexey Maksimov <destrd@gmail.com>
+Section: utils
+Build-Depends: kmymoney-dev
+Priority: optional
+Standards-Version: 3.9.6
+
+Package: kmymoney-transactionattach
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KMyMoney plugin adding functionality attachments
+ KMyMoney plugin adding functionality for attaching to the transaction
+
