@@ -6,6 +6,7 @@ set(storage_tester_SOURCES
     ${CMAKE_SOURCE_DIR}/src/attachmentmodel.cpp
     ${CMAKE_SOURCE_DIR}/src/attachmentstoragefactory.cpp
     ${CMAKE_SOURCE_DIR}/src/attachmentstoragefilesystem.cpp
+    ${CMAKE_SOURCE_DIR}/src/attachmentstoragesqlite.cpp
     ${CMAKE_SOURCE_DIR}/src/forms/attachmentdialog.cpp
     ${CMAKE_SOURCE_DIR}/src/listviewattachment.cpp
     )

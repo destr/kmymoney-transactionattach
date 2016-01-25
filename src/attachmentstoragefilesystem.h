@@ -9,11 +9,9 @@
 
 class AttachmentModel;
 
-
-
 class AttachmentStorageFilesystem : public AbstractAttachmentStorage {
  public:
-  explicit AttachmentStorageFilesystem();
+  AttachmentStorageFilesystem();
   ~AttachmentStorageFilesystem();
 
   const QString& transactionId() const;
