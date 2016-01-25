@@ -4,7 +4,7 @@
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QList>
 
-#include "attachmentstorage.h"
+#include "attachmentstoragefilesystem.h"
 #include "abstractattachmentstorage.h"
 
 
@@ -36,7 +36,7 @@ class AttachmentModel : public QAbstractItemModel {
   QVariant data(const QModelIndex &index, int role) const;
 
  private:
-  AttachmentStorage *storage_;
+  AbstractAttachmentStorage *storage_;
 
   AttachedItemList list_;
 

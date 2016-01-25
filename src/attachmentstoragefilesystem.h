@@ -9,21 +9,12 @@
 
 class AttachmentModel;
 
-struct AttachedItem {
-  explicit AttachedItem(const QString& f) : filename(f) {}
-  QString filename;
-  bool operator==(const AttachedItem& rhs) const {
-    return filename == rhs.filename;
-  }
-};
-uint qHash(const AttachedItem& item);
 
-typedef QList<AttachedItem> AttachedItemList;
 
-class AttachmentStorage : public AbstractAttachmentStorage {
+class AttachmentStorageFilesystem : public AbstractAttachmentStorage {
  public:
-  explicit AttachmentStorage();
-  ~AttachmentStorage();
+  explicit AttachmentStorageFilesystem();
+  ~AttachmentStorageFilesystem();
 
   const QString& transactionId() const;
   void setTransactionId(const QString& id);
@@ -50,5 +41,5 @@ private:
   QScopedPointer<Private> d_;
 
  private:
-  Q_DISABLE_COPY(AttachmentStorage)
+  Q_DISABLE_COPY(AttachmentStorageFilesystem)
 };

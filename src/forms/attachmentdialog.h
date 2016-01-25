@@ -4,12 +4,12 @@
 #include <QtCore/QAbstractItemModel>
 #include <QtGui/QDialog>
 
-#include "attachmentstorage.h"
 
 namespace Ui {
 class AttachmentDialog;
 }
 
+class AttachmentModel;
 class AspectRatioPixmapLabel;
 
 class AttachmentDialog : public QDialog {

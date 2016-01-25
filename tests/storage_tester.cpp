@@ -3,7 +3,7 @@
 #include <QtGui/QApplication>
 
 #include <src/forms/attachmentdialog.h>
-#include <src/attachmentstorage.h>
+#include <src/attachmentstoragefilesystem.h>
 #include <src/attachmentmodel.h>
 
 int main(int argc, char **argv) {

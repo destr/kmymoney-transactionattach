@@ -3,7 +3,9 @@
 #include <QtCore/QSet>
 #include <QtGui/QPixmap>
 
+#include "abstractattachmentstorage.h"
 #include "attachmentmodel.h"
+#include "attachmentstoragefactory.h"
 #include "listviewattachment.h"
 
 class ImageCache {
@@ -28,7 +30,12 @@ class ImageCache {
 Q_GLOBAL_STATIC(ImageCache, gImageCache)
 
 AttachmentModel::AttachmentModel(QObject *parent)
-    : QAbstractItemModel(parent), storage_(new AttachmentStorage) {}  // Ctor
+    : QAbstractItemModel(parent), storage_(0) {
+
+  // TODO pluing settings
+  AttachmentStorageFactory::Type t = AttachmentStorageFactory::Filesystem;
+  storage_ = AttachmentStorageFactory::create(t);
+}  // Ctor
 
 AttachmentModel::~AttachmentModel() { delete storage_; }  // Dtor
 

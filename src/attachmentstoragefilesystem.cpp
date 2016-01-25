@@ -5,33 +5,33 @@
 #include <QtGui/QImageReader>
 
 #include "attachmentmodel.h"
-#include "attachmentstorage.h"
+#include "attachmentstoragefilesystem.h"
 
 namespace {
 const QString newPrefix = "+";
 const QString removePrefix = "-";
 }
 
-struct AttachmentStorage::Private {
+struct AttachmentStorageFilesystem::Private {
   QString transactionId;
   QDir dir;
   QString attachPath() { return dir.filePath(transactionId); }
 };
 
-AttachmentStorage::AttachmentStorage() : d_(new Private) {}  // Ctor
+AttachmentStorageFilesystem::AttachmentStorageFilesystem() : d_(new Private) {}  // Ctor
 
-AttachmentStorage::~AttachmentStorage() {}  // Dtor
+AttachmentStorageFilesystem::~AttachmentStorageFilesystem() {}  // Dtor
 
-const QString &AttachmentStorage::transactionId() const {
+const QString &AttachmentStorageFilesystem::transactionId() const {
   return d_->transactionId;
 }  // transactionId
 
-void AttachmentStorage::setTransactionId(const QString &id) {
+void AttachmentStorageFilesystem::setTransactionId(const QString &id) {
   if (d_->transactionId == id) return;
   d_->transactionId = id;
 }  // setTransactionId
 
-void AttachmentStorage::addFiles(const QStringList &files) {
+void AttachmentStorageFilesystem::addFiles(const QStringList &files) {
   QDir dir(d_->attachPath());
   if (!dir.exists()) {
     dir.mkpath(".");
@@ -58,11 +58,11 @@ void AttachmentStorage::addFiles(const QStringList &files) {
   }
 }  // addFiles
 
-void AttachmentStorage::setPath(const QString &path) {
+void AttachmentStorageFilesystem::setPath(const QString &path) {
   d_->dir.setPath(path);
 }  // setPath
 
-void AttachmentStorage::removeFiles(const QStringList &files) {
+void AttachmentStorageFilesystem::removeFiles(const QStringList &files) {
   QDir dir(d_->attachPath());
   Q_FOREACH (const QString &filepath, files) {
     QFileInfo fi(filepath);
@@ -75,7 +75,7 @@ void AttachmentStorage::removeFiles(const QStringList &files) {
   }
 }  // removeFiles
 
-AttachedItemList AttachmentStorage::load() {
+AttachedItemList AttachmentStorageFilesystem::load() {
   AttachedItemList list;
   if (d_->transactionId.isEmpty()) return list;
 
@@ -90,11 +90,11 @@ AttachedItemList AttachmentStorage::load() {
   return list;
 }  // load
 
-void AttachmentStorage::commit() { internalEnd(Commit); }  // commit
+void AttachmentStorageFilesystem::commit() { internalEnd(Commit); }  // commit
 
-void AttachmentStorage::rollback() { internalEnd(Rollback); }  // rollback
+void AttachmentStorageFilesystem::rollback() { internalEnd(Rollback); }  // rollback
 
-void AttachmentStorage::internalEnd(AttachmentStorage::EndType type) {
+void AttachmentStorageFilesystem::internalEnd(AttachmentStorageFilesystem::EndType type) {
   QDir dir(d_->attachPath());
   QStringList filters;
   filters << newPrefix + "*";
@@ -122,4 +122,4 @@ void AttachmentStorage::internalEnd(AttachmentStorage::EndType type) {
   }
 }  // internalEnd
 
-uint qHash(const AttachedItem &item) { return qHash(item.filename); }
+
