@@ -1,7 +1,7 @@
 Source: kmymoney-transactionattach
 Maintainer: Alexey Maksimov <destrd@gmail.com>
 Section: utils
-Build-Depends: kmymoney-dev
+Build-Depends: kmymoney-dev, qt4-dev-tools, cmake, kdelibs5-dev, libalkimia-dev, libgmp-dev
 Priority: optional
 Standards-Version: 3.9.6
 
