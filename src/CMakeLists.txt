@@ -11,12 +11,13 @@ include_directories(/usr/include/kmymoney
 ########### next target ###############
 
 set(kmm_transactionattach_PART_SOURCES
+    abstractattachmentstorage.cpp
     aspectratiopixmaplabel.cpp
     attachdelegate.cpp
     attachmentmodel.cpp
-    attachmentstorage.cpp
-    attachmentstorage.cpp
     attachmentstoragefactory.cpp
+    attachmentstoragefilesystem.cpp
+    attachmentstoragesqlite.cpp
     listviewattachment.cpp
     transactionattach.cpp
     transactionattachview.cpp
@@ -27,11 +28,11 @@ set(kmm_transactionattach_PART_HEADERS
     attachdelegate.h
     attachmentmodel.h
     attachmentstoragefactory.h
-    attachmentstorage.h
-    attachmentstorage.h
+    attachmentstoragefilesystem.h
+    attachmentstoragesqlite.h
     listviewattachment.h
-    transactionattach_export.h
     transactionattach.h
+    transactionattach_export.h
     transactionattachview.h
     )
 

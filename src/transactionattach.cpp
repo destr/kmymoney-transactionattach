@@ -12,7 +12,7 @@
 #include "pluginsettings.h"
 #include "attachmentdialog.h"
 #include "attachmentmodel.h"
-#include "attachmentstorage.h"
+#include "attachmentstoragefactory.h"
 #include "transactionattach.h"
 
 K_PLUGIN_FACTORY(TransactionAttachFactory, registerPlugin<TransactionAttach>(););
