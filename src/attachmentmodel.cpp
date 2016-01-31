@@ -33,7 +33,7 @@ AttachmentModel::AttachmentModel(QObject *parent)
     : QAbstractItemModel(parent), storage_(0) {
 
   // TODO pluing settings
-  AttachmentStorageFactory::Type t = AttachmentStorageFactory::Filesystem;
+  AttachmentStorageFactory::Type t = AttachmentStorageFactory::Sqlite;
   storage_ = AttachmentStorageFactory::create(t);
 }  // Ctor
 

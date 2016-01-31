@@ -49,6 +49,7 @@ target_link_libraries(kmm_transactionattach
                       kmm_plugin
                       ${KDE4_KDEUI_LIBS}
                       ${KDE4_KIO_LIBS}
+                      ${QT_QTSQL_LIBRARY}
                       )
 
 ########### install files ###############

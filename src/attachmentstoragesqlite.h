@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtCore/qglobal.h>
+#include <QtCore/QScopedPointer>
 
 #include "abstractattachmentstorage.h"
 
@@ -18,6 +19,10 @@ public:
   void setTransactionId(const QString& transaction);
   void commit();
   void rollback();
+
+private:
+  struct Private;
+  QScopedPointer<Private> d_;
 
 private:
   Q_DISABLE_COPY(AttachmentStorageSqlite)

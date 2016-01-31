@@ -20,5 +20,5 @@ set(storage_tester_SOURCES
 QT4_WRAP_UI(UI_HEADERS ${CMAKE_SOURCE_DIR}/src/forms/attachmentdialog.ui)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src)
 add_executable(storage_tester ${storage_tester_SOURCES} ${UI_HEADERS} ${storage_tester_HEADERS})
-target_link_libraries(storage_tester Qt4::QtCore Qt4::QtGui)
+target_link_libraries(storage_tester Qt4::QtCore Qt4::QtGui Qt4::QtSql)
 
