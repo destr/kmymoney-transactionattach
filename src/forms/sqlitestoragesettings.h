@@ -12,6 +12,9 @@ class SqliteStorageSettings : public QWidget, public Ui::SqliteStorageSettings {
   explicit SqliteStorageSettings(QWidget *parent = 0);
   ~SqliteStorageSettings();
 
+ private slots:
+  void selectPath();
+
  private:
   Q_DISABLE_COPY(SqliteStorageSettings)
 };

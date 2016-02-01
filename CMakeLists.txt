@@ -29,6 +29,6 @@ endif(NOT WIN32)
 if(NOT WIN32)
 add_subdirectory(src)
 endif(NOT WIN32)
-add_subdirectory(tests)
+#add_subdirectory(tests)
 add_subdirectory(po)
 

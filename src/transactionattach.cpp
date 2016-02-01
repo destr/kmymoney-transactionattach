@@ -9,79 +9,97 @@
 #include <kmymoney/pluginloader.h>
 #include <kmymoney/selectedtransaction.h>
 
-#include "pluginsettings.h"
 #include "attachmentdialog.h"
 #include "attachmentmodel.h"
 #include "attachmentstoragefactory.h"
+#include "pluginsettings.h"
 #include "transactionattach.h"
 
-K_PLUGIN_FACTORY(TransactionAttachFactory, registerPlugin<TransactionAttach>(););
+K_PLUGIN_FACTORY(TransactionAttachFactory,
+                 registerPlugin<TransactionAttach>(););
 K_EXPORT_PLUGIN(TransactionAttachFactory("kmm_transactionattach"))
 
 struct TransactionAttach::Private {
-    KAction *action;
-    /// selected transaction id
-    QString transactionId;
-    AttachmentModel model;
+  KAction *action;
+  /// selected transaction id
+  QString transactionId;
+  AttachmentModel model;
 };
 
 TransactionAttach::TransactionAttach(QObject *parent, const QVariantList &args)
-    : KMyMoneyPlugin::Plugin(parent, "KMyMoney Transaction Attach"), d_(new Private) {
+    : KMyMoneyPlugin::Plugin(parent, "KMyMoney Transaction Attach"),
+      d_(new Private) {
+  Q_UNUSED(args)
 
-    Q_UNUSED(args)
+  setComponentData(TransactionAttachFactory::componentData());
+  setXMLFile("kmm_transactionattach.rc");
 
-    setComponentData(TransactionAttachFactory::componentData());
-    setXMLFile("kmm_transactionattach.rc");
+  qDebug() << "KMyMoney transactionattach plugin loaded";
 
-    qDebug()  << "KMyMoney transactionattach plugin loaded";
+  d_->action = actionCollection()->addAction("transaction_attachment", this,
+                                             SLOT(slotAttachment()));
+  d_->action->setText(i18n("Attachment..."));
+  d_->action->setEnabled(false);
 
-    d_->action = actionCollection()->addAction("transaction_attachment", this,
-                                               SLOT(slotAttachment()));
-    d_->action->setText(i18n("Attachment..."));
-    d_->action->setEnabled(false);
-
-    KMyMoneyPlugin::PluginLoader *instance = KMyMoneyPlugin::PluginLoader::instance();
-    connect(instance, SIGNAL(plug(KPluginInfo*)), this, SLOT(slotPlug(KPluginInfo*)));
-    connect(instance, SIGNAL(unplug(KPluginInfo*)), this, SLOT(slotUnplug(KPluginInfo*)));
+  KMyMoneyPlugin::PluginLoader *instance =
+      KMyMoneyPlugin::PluginLoader::instance();
+  connect(instance, SIGNAL(plug(KPluginInfo *)), this,
+          SLOT(slotPlug(KPluginInfo *)));
+  connect(instance, SIGNAL(unplug(KPluginInfo *)), this,
+          SLOT(slotUnplug(KPluginInfo *)));
+  connect(instance, SIGNAL(configChanged(Plugin *)), this,
+          SLOT(slotConfigChanged(Plugin *)));
 
 }  // Ctor
 
-TransactionAttach::~TransactionAttach() {
-}  // Dtor
+TransactionAttach::~TransactionAttach() {}  // Dtor
 
 void TransactionAttach::slotPlug(KPluginInfo *info) {
-    if (info->name() != objectName()) return;
-    connect(viewInterface(), SIGNAL(transactionsSelected(KMyMoneyRegister::SelectedTransactions)),
-        this, SLOT(slotTransactionsSelected(KMyMoneyRegister::SelectedTransactions)));
+  if (info->name() != objectName()) return;
+  connect(
+      viewInterface(),
+      SIGNAL(transactionsSelected(KMyMoneyRegister::SelectedTransactions)),
+      this,
+      SLOT(slotTransactionsSelected(KMyMoneyRegister::SelectedTransactions)));
 }  // slotPlug
 
 void TransactionAttach::slotUnplug(KPluginInfo *info) {
-    if (info->name() != objectName()) return;
-    disconnect(viewInterface(), SIGNAL(transactionsSelected(KMyMoneyRegister::SelectedTransactions)),
-        this, SLOT(slotTransactionsSelected(KMyMoneyRegister::SelectedTransactions)));
+  if (info->name() != objectName()) return;
+  disconnect(
+      viewInterface(),
+      SIGNAL(transactionsSelected(KMyMoneyRegister::SelectedTransactions)),
+      this,
+      SLOT(slotTransactionsSelected(KMyMoneyRegister::SelectedTransactions)));
 }  // slotUnplug
 
-void TransactionAttach::slotAttachment() {
-    Q_ASSERT(!d_->transactionId.isEmpty());
+void TransactionAttach::slotConfigChanged(KMyMoneyPlugin::Plugin *plugin) {
+    Q_UNUSED(plugin)
+    PluginSettings::self()->readConfig();
+    d_->model.reloadConfiguration();
+}  // slotConfigChanged
 
-    /// TODO reload()
-    d_->model.setTransactionId(d_->transactionId);
-    //qDebug() << PluginSettings::lineEditPath();
-    AttachmentDialog d;
-    d.setModel(&d_->model);
-    qDebug() << Q_FUNC_INFO << d_->transactionId;
-    d.exec();
+void TransactionAttach::slotAttachment() {
+  Q_ASSERT(!d_->transactionId.isEmpty());
+
+  /// TODO reload()
+  d_->model.setTransactionId(d_->transactionId);
+  // qDebug() << PluginSettings::lineEditPath();
+  AttachmentDialog d;
+  d.setModel(&d_->model);
+  qDebug() << Q_FUNC_INFO << d_->transactionId;
+  d.exec();
 }  // slotAttachment
 
-void TransactionAttach::slotTransactionsSelected(const KMyMoneyRegister::SelectedTransactions &transactions) {
-    /// add attachment only one transaction...
-    if (transactions.count() != 1) {
-        d_->action->setEnabled(false);
-        d_->transactionId.clear();
-        return;
-    }
-    d_->action->setEnabled(true);
+void TransactionAttach::slotTransactionsSelected(
+    const KMyMoneyRegister::SelectedTransactions &transactions) {
+  /// add attachment only one transaction...
+  if (transactions.count() != 1) {
+    d_->action->setEnabled(false);
+    d_->transactionId.clear();
+    return;
+  }
+  d_->action->setEnabled(true);
 
-    const MyMoneyTransaction &t = transactions.first().transaction();
-    d_->transactionId = t.id();
+  const MyMoneyTransaction &t = transactions.first().transaction();
+  d_->transactionId = t.id();
 }  // slotTransactionsSelected

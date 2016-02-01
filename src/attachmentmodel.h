@@ -7,7 +7,6 @@
 #include "attachmentstoragefilesystem.h"
 #include "abstractattachmentstorage.h"
 
-
 class AttachmentModel : public QAbstractItemModel {
   Q_OBJECT
  public:
@@ -18,7 +17,7 @@ class AttachmentModel : public QAbstractItemModel {
   explicit AttachmentModel(QObject *parent = 0);
   ~AttachmentModel();
 
-  void addFiles(const QStringList& files);
+  void addFiles(const QStringList &files);
   void setTransactionId(const QString &transactionId);
   void setStoragePath(const QString &path);
 
@@ -27,6 +26,7 @@ class AttachmentModel : public QAbstractItemModel {
   void commit();
   void rollback();
 
+  void reloadConfiguration();
   // QAbstractItemModel interface
  public:
   QModelIndex index(int row, int column, const QModelIndex &parent) const;
@@ -35,9 +35,11 @@ class AttachmentModel : public QAbstractItemModel {
   int columnCount(const QModelIndex &parent) const;
   QVariant data(const QModelIndex &index, int role) const;
 
+private:
+  void createStorage();
+
  private:
   AbstractAttachmentStorage *storage_;
-
   AttachedItemList list_;
 
  private:

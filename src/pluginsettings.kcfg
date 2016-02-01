@@ -6,7 +6,8 @@
     <kcfgfile name="transactionattachpluginrc"/>
     <group name="General">
     <entry name="comboBoxStorageType" type="int"> 
-      <label>Type of attachment storage.</label> 
+        <label>Type of attachment storage.</label> 
+        <default>0</default>
   </entry> 
     <entry name="lineEditDirPath" type="String">
         <label>The directory in which to save the attachments.</label>

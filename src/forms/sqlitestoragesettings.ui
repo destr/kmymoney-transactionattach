@@ -27,7 +27,7 @@
       <widget class="KLineEdit" name="kcfg_lineEditSqlitePath"/>
      </item>
      <item>
-      <widget class="KPushButton" name="pushButtonBrowse">
+      <widget class="QPushButton" name="pushButtonBrowse">
        <property name="text">
         <string>Browse</string>
        </property>
@@ -55,11 +55,6 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header location="global">kpushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

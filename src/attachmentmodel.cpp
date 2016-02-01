@@ -7,6 +7,7 @@
 #include "attachmentmodel.h"
 #include "attachmentstoragefactory.h"
 #include "listviewattachment.h"
+#include "pluginsettings.h"
 
 class ImageCache {
  public:
@@ -31,10 +32,7 @@ Q_GLOBAL_STATIC(ImageCache, gImageCache)
 
 AttachmentModel::AttachmentModel(QObject *parent)
     : QAbstractItemModel(parent), storage_(0) {
-
-  // TODO pluing settings
-  AttachmentStorageFactory::Type t = AttachmentStorageFactory::Sqlite;
-  storage_ = AttachmentStorageFactory::create(t);
+  createStorage();
 }  // Ctor
 
 AttachmentModel::~AttachmentModel() { delete storage_; }  // Dtor
@@ -81,13 +79,11 @@ void AttachmentModel::removeSelected(QModelIndexList indexList) {
   storage_->removeFiles(deletedFiles);
 }  // removeSelected
 
-void AttachmentModel::commit() {
-    storage_->commit();
-}  // commit
+void AttachmentModel::commit() { storage_->commit(); }  // commit
 
-void AttachmentModel::rollback() {
-    storage_->rollback();
-}  // rollback
+void AttachmentModel::rollback() { storage_->rollback(); }  // rollback
+
+void AttachmentModel::reloadConfiguration() {}  // reloadConfiguration
 
 QModelIndex AttachmentModel::index(int row, int column,
                                    const QModelIndex &parent) const {
@@ -149,3 +145,27 @@ QVariant AttachmentModel::data(const QModelIndex &index, int role) const {
   //    }
   return QVariant();
 }  // data
+
+void AttachmentModel::createStorage() {
+  if (storage_) {
+    delete storage_;
+  }
+
+  int t = PluginSettings::comboBoxStorageType();
+  if (t > AttachmentStorageFactory::Sqlite || t < 0) {
+    t = AttachmentStorageFactory::Filesystem;
+  }
+  storage_ =
+      AttachmentStorageFactory::create(AttachmentStorageFactory::Type(t));
+  QString path;
+  switch (t) {
+    case AttachmentStorageFactory::Filesystem:
+      path = PluginSettings::lineEditDirPath();
+      break;
+    case AttachmentStorageFactory::Sqlite:
+      path = PluginSettings::lineEditSqlitePath();
+      break;
+  }
+
+  storage_->setPath(path);
+}  // createStorage
