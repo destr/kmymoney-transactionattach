@@ -5,8 +5,14 @@
         http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
     <kcfgfile name="transactionattachpluginrc"/>
     <group name="General">
-    <entry name="lineEditPath" type="String"> 
-      <label>The directory in which to save the attachments.</label> 
-    </entry> 
+    <entry name="comboBoxStorageType" type="int"> 
+      <label>Type of attachment storage.</label> 
+  </entry> 
+    <entry name="lineEditDirPath" type="String">
+        <label>The directory in which to save the attachments.</label>
+    </entry>
+    <entry name="lineEditSqlitePath" type="String">
+        <label>The path to sqlite database to save the attachments.</label>
+    </entry>
     </group>
 </kcfg>

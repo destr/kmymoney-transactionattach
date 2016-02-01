@@ -39,7 +39,7 @@ void AttachDelegate::paint(QPainter* painter,
 
 QSize AttachDelegate::sizeHint(const QStyleOptionViewItem& option,
                                const QModelIndex& index) const {
-
+  Q_UNUSED(option)
   QSize size = index.data(AttachmentModel::PreviewRole).value<QPixmap>().size();
   return size + QSize(0, 10);
 }  // sizeHint

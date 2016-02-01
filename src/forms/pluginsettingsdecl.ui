@@ -15,34 +15,49 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
      <item>
-      <widget class="QLabel" name="labelPath">
+      <widget class="QLabel" name="label">
        <property name="text">
-        <string>Save to</string>
+        <string>Attachment storage type</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="kcfg_lineEditPath"/>
+      <widget class="KComboBox" name="kcfg_comboBoxStorageType"/>
      </item>
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>158</height>
-      </size>
-     </property>
-    </spacer>
+     <widget class="FilesystemStorageSettings" name="page"/>
+     <widget class="SqliteStorageSettings" name="page_2"/>
+    </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FilesystemStorageSettings</class>
+   <extends>QWidget</extends>
+   <header>filesystemstoragesettings.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header location="global">kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SqliteStorageSettings</class>
+   <extends>QWidget</extends>
+   <header>sqlitestoragesettings.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
