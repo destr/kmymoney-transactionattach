@@ -17,6 +17,7 @@ public:
   void addFiles(const QStringList& list);
   void setPath(const QString& path);
   void removeFiles(const QStringList& list);
+  void exportFiles(const QString &dst, const QStringList &list);
   void setTransactionId(const QString& transaction);
   void commit();
   void rollback();

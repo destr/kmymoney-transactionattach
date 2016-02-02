@@ -25,6 +25,7 @@ class AttachmentDialog : public QDialog {
   void addAttachment();
   void removeAttachment();
   void fitToScreen(bool checked);
+  void exportAttachment();
 
  private slots:
   void slot_currentRowChanged(const QModelIndex &current,
@@ -35,6 +36,7 @@ class AttachmentDialog : public QDialog {
 private:
   AttachmentModel* attachmentModel();
   QSize viewportSize() const;
+  QModelIndexList selectedIndexes();
 
  private:
   Ui::AttachmentDialog *ui;

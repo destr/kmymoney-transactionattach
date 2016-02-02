@@ -76,6 +76,23 @@ void AttachmentStorageFilesystem::removeFiles(const QStringList &files) {
   }
 }  // removeFiles
 
+void AttachmentStorageFilesystem::exportFiles(const QString &dst,
+                                              const QStringList &list) {
+  Q_FOREACH (const QString &filepath, list) {
+    QFileInfo fi(filepath);
+    QFile origFile(filepath);
+    QString dstname = fi.fileName();
+    // отрезаем timestamp
+    int pos = dstname.indexOf("_");
+    if (pos > 0) {
+      dstname = dstname.mid(pos + 1);
+    }
+    if (!origFile.copy(QString("%1/%2").arg(dst, dstname))) {
+      qDebug() << "Export file error: " << origFile.errorString();
+    }
+  }
+}  // exportFiles
+
 AttachedItemList AttachmentStorageFilesystem::load() {
   AttachedItemList list;
   if (d_->transactionId.isEmpty()) return list;
@@ -83,7 +100,7 @@ AttachedItemList AttachmentStorageFilesystem::load() {
   const QString path = d_->attachPath();
   qDebug() << "Load from: " << path;
   QStringList filters;
-  filters << newPrefix +"*";
+  filters << newPrefix + "*";
   filters << "[0-9]*";
 
   QDir dir(path);

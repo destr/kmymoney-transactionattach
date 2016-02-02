@@ -126,6 +126,14 @@
     <string>Fit to screen</string>
    </property>
   </action>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export...</string>
+   </property>
+   <property name="toolTip">
+    <string>Export</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

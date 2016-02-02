@@ -27,6 +27,7 @@ class AttachmentModel : public QAbstractItemModel {
   void setStorageType(StorageType type);
 
   void removeSelected(QModelIndexList indexList);
+  void exportSelected(const QString &dst, const QModelIndexList& indexList);
 
   void commit();
   void rollback();

@@ -47,6 +47,11 @@ void AttachmentStorageSqlite::setPath(const QString& path) {
 
 void AttachmentStorageSqlite::removeFiles(const QStringList& list) {}
 
+void AttachmentStorageSqlite::exportFiles(const QString& dst, const QStringList& list)
+{
+
+}
+
 void AttachmentStorageSqlite::setTransactionId(const QString& transaction) {}
 
 void AttachmentStorageSqlite::commit() {}

@@ -27,6 +27,7 @@ public:
   virtual void addFiles(const QStringList &list) = 0;
   virtual void setPath(const QString &path) = 0;
   virtual void removeFiles(const QStringList &list) = 0;
+  virtual void exportFiles(const QString &dst, const QStringList &list) = 0;
   virtual void setTransactionId(const QString &transaction) = 0;
   virtual void commit() = 0;
   virtual void rollback() = 0;

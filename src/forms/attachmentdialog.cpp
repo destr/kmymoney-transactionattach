@@ -15,9 +15,11 @@ AttachmentDialog::AttachmentDialog(QWidget *parent)
   connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(addAttachment()));
   connect(ui->actionRemove, SIGNAL(triggered()), this,
           SLOT(removeAttachment()));
-
   connect(ui->actionFitToScreen, SIGNAL(triggered(bool)), this,
           SLOT(fitToScreen(bool)));
+  connect(ui->actionExport, SIGNAL(triggered()), this,
+          SLOT(exportAttachment()));
+
   connect(ui->checkBoxFitToScreen, SIGNAL(clicked(bool)), this,
           SLOT(fitToScreen(bool)));
 
@@ -25,14 +27,15 @@ AttachmentDialog::AttachmentDialog(QWidget *parent)
   connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(rejected()));
   connect(ui->actionFitToScreen, SIGNAL(triggered(bool)),
           ui->checkBoxFitToScreen, SLOT(setChecked(bool)));
-  connect(ui->checkBoxFitToScreen, SIGNAL(clicked(bool)),
-          ui->actionFitToScreen, SLOT(setChecked(bool)));
+  connect(ui->checkBoxFitToScreen, SIGNAL(clicked(bool)), ui->actionFitToScreen,
+          SLOT(setChecked(bool)));
 
   ui->toolButtonAdd->setDefaultAction(ui->actionAdd);
   ui->toolButtonRemove->setDefaultAction(ui->actionRemove);
 
   ui->listView->addAction(ui->actionAdd);
   ui->listView->addAction(ui->actionRemove);
+  ui->listView->addAction(ui->actionExport);
 
   label_ = new AspectRatioPixmapLabel(this);
   // label_->setScaledContents(true);
@@ -69,10 +72,7 @@ void AttachmentDialog::addAttachment() {
 }  // addAttachment
 
 void AttachmentDialog::removeAttachment() {
-  QModelIndexList indexList;
-  QItemSelectionModel *selection = ui->listView->selectionModel();
-  if (!selection) return;
-  indexList = selection->selectedRows();
+  QModelIndexList indexList = selectedIndexes();
 
   AttachmentModel *model = attachmentModel();
   if (!model) return;
@@ -88,6 +88,18 @@ void AttachmentDialog::fitToScreen(bool checked) {
     label_->resetToOrigPixmap();
   }
 }  // fitToScreen
+
+void AttachmentDialog::exportAttachment() {
+  QString path =
+      QFileDialog::getExistingDirectory(this, tr("Select export directory"));
+
+  if (path.isEmpty()) return;
+
+  QModelIndexList indexList = selectedIndexes();
+  AttachmentModel *model = attachmentModel();
+  if (!model) return;
+  model->exportSelected(path, indexList);
+}  // exportAttachment
 
 void AttachmentDialog::slot_currentRowChanged(const QModelIndex &current,
                                               const QModelIndex &previous) {
@@ -130,4 +142,12 @@ QSize AttachmentDialog::viewportSize() const {
     size.rwidth() += area->verticalScrollBar()->width();
   }
   return size;
+}
+
+QModelIndexList AttachmentDialog::selectedIndexes() {
+  QModelIndexList indexList;
+  QItemSelectionModel *selection = ui->listView->selectionModel();
+  if (!selection) return indexList;
+  indexList = selection->selectedRows();
+  return indexList;
 }  // viewportSize

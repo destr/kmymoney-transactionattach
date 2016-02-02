@@ -98,6 +98,17 @@ void AttachmentModel::removeSelected(QModelIndexList indexList) {
   storage_->removeFiles(deletedFiles);
 }  // removeSelected
 
+void AttachmentModel::exportSelected(const QString &dst,
+                                     const QModelIndexList &indexList) {
+  QStringList files;
+  Q_FOREACH(const QModelIndex &index, indexList) {
+    const int row = index.row();
+    const QString filename = list_.at(row).filename;
+    files.push_back(filename);
+  }
+  storage_->exportFiles(dst, files);
+}  // exportSelected
+
 void AttachmentModel::commit() { storage_->commit(); }  // commit
 
 void AttachmentModel::rollback() { storage_->rollback(); }  // rollback
