@@ -14,6 +14,8 @@ class AttachmentStorageFilesystem : public AbstractAttachmentStorage {
   AttachmentStorageFilesystem();
   ~AttachmentStorageFilesystem();
 
+  StorageType type() const;
+
   const QString& transactionId() const;
   void setTransactionId(const QString& id);
 

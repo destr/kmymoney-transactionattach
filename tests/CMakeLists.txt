@@ -16,7 +16,6 @@ set(storage_tester_SOURCES
     ${CMAKE_SOURCE_DIR}/src/aspectratiopixmaplabel.h
     )
 
-
 QT4_WRAP_UI(UI_HEADERS ${CMAKE_SOURCE_DIR}/src/forms/attachmentdialog.ui)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src)
 add_executable(storage_tester ${storage_tester_SOURCES} ${UI_HEADERS} ${storage_tester_HEADERS})

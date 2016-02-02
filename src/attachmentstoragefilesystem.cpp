@@ -18,9 +18,12 @@ struct AttachmentStorageFilesystem::Private {
   QString attachPath() { return dir.filePath(transactionId); }
 };
 
-AttachmentStorageFilesystem::AttachmentStorageFilesystem() : d_(new Private) {}  // Ctor
+AttachmentStorageFilesystem::AttachmentStorageFilesystem()
+    : d_(new Private) {}  // Ctor
 
 AttachmentStorageFilesystem::~AttachmentStorageFilesystem() {}  // Dtor
+
+StorageType AttachmentStorageFilesystem::type() const { return Filesystem; }
 
 const QString &AttachmentStorageFilesystem::transactionId() const {
   return d_->transactionId;
@@ -68,9 +71,9 @@ void AttachmentStorageFilesystem::removeFiles(const QStringList &files) {
     QFileInfo fi(filepath);
     const QString filename(fi.fileName());
     if (filename.startsWith(newPrefix)) {
-        dir.remove(filename);
+      dir.remove(filename);
     } else {
-        dir.rename(filename, removePrefix + filename);
+      dir.rename(filename, removePrefix + filename);
     }
   }
 }  // removeFiles
@@ -92,9 +95,12 @@ AttachedItemList AttachmentStorageFilesystem::load() {
 
 void AttachmentStorageFilesystem::commit() { internalEnd(Commit); }  // commit
 
-void AttachmentStorageFilesystem::rollback() { internalEnd(Rollback); }  // rollback
+void AttachmentStorageFilesystem::rollback() {
+  internalEnd(Rollback);
+}  // rollback
 
-void AttachmentStorageFilesystem::internalEnd(AttachmentStorageFilesystem::EndType type) {
+void AttachmentStorageFilesystem::internalEnd(
+    AttachmentStorageFilesystem::EndType type) {
   QDir dir(d_->attachPath());
   QStringList filters;
   filters << newPrefix + "*";
@@ -121,5 +127,3 @@ void AttachmentStorageFilesystem::internalEnd(AttachmentStorageFilesystem::EndTy
     }
   }
 }  // internalEnd
-
-

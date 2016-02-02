@@ -4,13 +4,13 @@
 
 class AbstractAttachmentStorage;
 
+enum StorageType {
+  Filesystem,
+  Sqlite
+};
+
 class AttachmentStorageFactory {
 public:
-  enum Type {
-    Filesystem,
-    Sqlite
-  };
-
-  static AbstractAttachmentStorage* create(Type type);
+  static AbstractAttachmentStorage* create(StorageType type);
 
 };

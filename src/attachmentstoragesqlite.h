@@ -12,6 +12,7 @@ public:
 
   // AbstractAttachmentStorage interface
 public:
+  StorageType type() const;
   AttachedItemList load();
   void addFiles(const QStringList& list);
   void setPath(const QString& path);

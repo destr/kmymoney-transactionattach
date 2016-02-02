@@ -13,6 +13,7 @@ int main(int argc, char **argv) {
   AttachmentModel model;
 #if defined(Q_OS_WIN)
   model.setStoragePath("R:/attach");
+  model.setStorageType(Filesystem);
 #else
   model.setStoragePath("/tmp/attach");
 #endif

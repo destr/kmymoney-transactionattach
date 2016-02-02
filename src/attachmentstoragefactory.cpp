@@ -2,8 +2,7 @@
 #include "attachmentstoragefilesystem.h"
 #include "attachmentstoragesqlite.h"
 
-AbstractAttachmentStorage* AttachmentStorageFactory::create(
-    AttachmentStorageFactory::Type type) {
+AbstractAttachmentStorage* AttachmentStorageFactory::create(StorageType type) {
   switch (type) {
     case Filesystem:
       return new AttachmentStorageFilesystem();

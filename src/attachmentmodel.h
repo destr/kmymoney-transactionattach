@@ -3,9 +3,11 @@
 #include <QtCore/qglobal.h>
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QList>
+#include <QtCore/QScopedPointer>
 
-#include "attachmentstoragefilesystem.h"
 #include "abstractattachmentstorage.h"
+#include "attachmentstoragefactory.h"
+#include "attachmentstoragefilesystem.h"
 
 class AttachmentModel : public QAbstractItemModel {
   Q_OBJECT
@@ -15,11 +17,14 @@ class AttachmentModel : public QAbstractItemModel {
   enum Roles { FileNameRole = Qt::UserRole + 1, PreviewRole, ImageRole };
 
   explicit AttachmentModel(QObject *parent = 0);
+  AttachmentModel(StorageType type, const QString &path, QObject *parent = 0);
   ~AttachmentModel();
 
   void addFiles(const QStringList &files);
   void setTransactionId(const QString &transactionId);
+
   void setStoragePath(const QString &path);
+  void setStorageType(StorageType type);
 
   void removeSelected(QModelIndexList indexList);
 
@@ -39,9 +44,11 @@ private:
   void createStorage();
 
  private:
+  struct Private;
+  QScopedPointer<Private> d_;
+
   AbstractAttachmentStorage *storage_;
   AttachedItemList list_;
-
  private:
   Q_DISABLE_COPY(AttachmentModel)
 };

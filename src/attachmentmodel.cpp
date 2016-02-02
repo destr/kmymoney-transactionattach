@@ -7,7 +7,6 @@
 #include "attachmentmodel.h"
 #include "attachmentstoragefactory.h"
 #include "listviewattachment.h"
-#include "pluginsettings.h"
 
 class ImageCache {
  public:
@@ -30,8 +29,22 @@ class ImageCache {
 
 Q_GLOBAL_STATIC(ImageCache, gImageCache)
 
+struct AttachmentModel::Private {
+  Private() : type(Filesystem) {}
+  StorageType type;
+  QString path;
+};
+
 AttachmentModel::AttachmentModel(QObject *parent)
-    : QAbstractItemModel(parent), storage_(0) {
+    : QAbstractItemModel(parent), d_(new Private), storage_(0)  {
+  createStorage();
+}  // Ctor
+
+AttachmentModel::AttachmentModel(StorageType type, const QString &path,
+                                 QObject *parent)
+    : QAbstractItemModel(parent), d_(new Private) {
+  d_->type = type;
+  d_->path = path;
   createStorage();
 }  // Ctor
 
@@ -59,8 +72,14 @@ void AttachmentModel::setTransactionId(const QString &transactionId) {
 }  // setTransactionId
 
 void AttachmentModel::setStoragePath(const QString &path) {
-  storage_->setPath(path);
+  d_->path = path;
+  createStorage();
 }  // setStoragePath
+
+void AttachmentModel::setStorageType(StorageType type) {
+  d_->type = type;
+  createStorage();
+}  // setStorageType
 
 void AttachmentModel::removeSelected(QModelIndexList indexList) {
   QStringList deletedFiles;
@@ -148,24 +167,17 @@ QVariant AttachmentModel::data(const QModelIndex &index, int role) const {
 
 void AttachmentModel::createStorage() {
   if (storage_) {
+    storage_->setPath(d_->path);
+
+    if (storage_->type() == d_->type) {
+      return;
+    }
+
+    storage_->rollback();
     delete storage_;
   }
 
-  int t = PluginSettings::comboBoxStorageType();
-  if (t > AttachmentStorageFactory::Sqlite || t < 0) {
-    t = AttachmentStorageFactory::Filesystem;
-  }
-  storage_ =
-      AttachmentStorageFactory::create(AttachmentStorageFactory::Type(t));
-  QString path;
-  switch (t) {
-    case AttachmentStorageFactory::Filesystem:
-      path = PluginSettings::lineEditDirPath();
-      break;
-    case AttachmentStorageFactory::Sqlite:
-      path = PluginSettings::lineEditSqlitePath();
-      break;
-  }
+  storage_ = AttachmentStorageFactory::create(d_->type);
 
-  storage_->setPath(path);
+  storage_->setPath(d_->path);
 }  // createStorage

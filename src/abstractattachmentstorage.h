@@ -5,6 +5,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
 
+#include "attachmentstoragefactory.h"
+
 struct AttachedItem {
   explicit AttachedItem(const QString& f) : filename(f) {}
   QString filename;
@@ -20,6 +22,7 @@ class AbstractAttachmentStorage : public QObject {
   Q_OBJECT
 public:
   AbstractAttachmentStorage() {}
+  virtual StorageType type() const = 0;
   virtual AttachedItemList load() = 0;
   virtual void addFiles(const QStringList &list) = 0;
   virtual void setPath(const QString &path) = 0;
