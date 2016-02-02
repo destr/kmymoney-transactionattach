@@ -36,7 +36,7 @@ struct AttachmentModel::Private {
 };
 
 AttachmentModel::AttachmentModel(QObject *parent)
-    : QAbstractItemModel(parent), d_(new Private), storage_(0)  {
+    : QAbstractItemModel(parent), d_(new Private), storage_(0) {
   createStorage();
 }  // Ctor
 

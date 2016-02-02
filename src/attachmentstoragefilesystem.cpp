@@ -39,7 +39,6 @@ void AttachmentStorageFilesystem::addFiles(const QStringList &files) {
   if (!dir.exists()) {
     dir.mkpath(".");
   }
-  int counter(dir.count());
   Q_FOREACH (const QString &filename, files) {
     QImageReader reader(filename);
     if (reader.format().isEmpty()) {
@@ -51,13 +50,12 @@ void AttachmentStorageFilesystem::addFiles(const QStringList &files) {
     if (!origFile.copy(QString("%1/%2%3_%4.%5")
                            .arg(d_->attachPath())
                            .arg(newPrefix)
-                           .arg(counter)
+                           .arg(finfo.completeBaseName())
                            .arg(QDateTime::currentMSecsSinceEpoch())
                            .arg(finfo.suffix()))) {
       qDebug() << "Copy file error: " << origFile.errorString();
       continue;
     }
-    ++counter;
   }
 }  // addFiles
 
