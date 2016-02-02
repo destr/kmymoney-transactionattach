@@ -48,7 +48,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QToolButton" name="toolButtonAdd">
        <property name="text">
@@ -60,6 +60,13 @@
       <widget class="QToolButton" name="toolButtonRemove">
        <property name="text">
         <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxFitToScreen">
+       <property name="text">
+        <string>Fit to screen</string>
        </property>
       </widget>
      </item>

@@ -15,11 +15,18 @@ AttachmentDialog::AttachmentDialog(QWidget *parent)
   connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(addAttachment()));
   connect(ui->actionRemove, SIGNAL(triggered()), this,
           SLOT(removeAttachment()));
+
   connect(ui->actionFitToScreen, SIGNAL(triggered(bool)), this,
+          SLOT(fitToScreen(bool)));
+  connect(ui->checkBoxFitToScreen, SIGNAL(clicked(bool)), this,
           SLOT(fitToScreen(bool)));
 
   connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accepted()));
   connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(rejected()));
+  connect(ui->actionFitToScreen, SIGNAL(triggered(bool)),
+          ui->checkBoxFitToScreen, SLOT(setChecked(bool)));
+  connect(ui->checkBoxFitToScreen, SIGNAL(clicked(bool)),
+          ui->actionFitToScreen, SLOT(setChecked(bool)));
 
   ui->toolButtonAdd->setDefaultAction(ui->actionAdd);
   ui->toolButtonRemove->setDefaultAction(ui->actionRemove);
