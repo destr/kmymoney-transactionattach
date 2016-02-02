@@ -50,8 +50,8 @@ void AttachmentStorageFilesystem::addFiles(const QStringList &files) {
     if (!origFile.copy(QString("%1/%2%3_%4.%5")
                            .arg(d_->attachPath())
                            .arg(newPrefix)
-                           .arg(finfo.completeBaseName())
                            .arg(QDateTime::currentMSecsSinceEpoch())
+                           .arg(finfo.completeBaseName())
                            .arg(finfo.suffix()))) {
       qDebug() << "Copy file error: " << origFile.errorString();
       continue;
@@ -82,9 +82,12 @@ AttachedItemList AttachmentStorageFilesystem::load() {
 
   const QString path = d_->attachPath();
   qDebug() << "Load from: " << path;
+  QStringList filters;
+  filters << newPrefix +"*";
+  filters << "[0-9]*";
 
   QDir dir(path);
-  Q_FOREACH (const QString &filename, dir.entryList(QDir::Files)) {
+  Q_FOREACH (const QString &filename, dir.entryList(filters, QDir::Files)) {
     list.push_back(AttachedItem(dir.filePath(filename)));
   }
 
