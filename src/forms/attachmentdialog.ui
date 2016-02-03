@@ -39,8 +39,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>57</width>
-         <height>537</height>
+         <width>63</width>
+         <height>542</height>
         </rect>
        </property>
       </widget>
@@ -127,11 +127,36 @@
    </property>
   </action>
   <action name="actionExport">
+   <property name="icon">
+    <iconset theme="document-export"/>
+   </property>
    <property name="text">
     <string>Export...</string>
    </property>
    <property name="toolTip">
     <string>Export</string>
+   </property>
+  </action>
+  <action name="actionRotate90Clockwise">
+   <property name="icon">
+    <iconset theme="object-rotate-right"/>
+   </property>
+   <property name="text">
+    <string>Rotate 90 ° clockwise</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate 90 ° clockwise</string>
+   </property>
+  </action>
+  <action name="actionRotate90Anticlockwise">
+   <property name="icon">
+    <iconset theme="object-rotate-left"/>
+   </property>
+   <property name="text">
+    <string>Rotate 90 ° anticlockwise</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate 90 ° anticlockwise</string>
    </property>
   </action>
  </widget>

@@ -23,6 +23,7 @@ class AttachmentStorageFilesystem : public AbstractAttachmentStorage {
   void setPath(const QString& path);
   void removeFiles(const QStringList& files);
   void exportFiles(const QString &dst, const QStringList &list);
+  void rotateFile(const QString &file, RotateDirection direction);
   AttachedItemList load();
 
   void commit();

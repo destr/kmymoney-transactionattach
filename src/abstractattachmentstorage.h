@@ -8,19 +8,21 @@
 #include "attachmentstoragefactory.h"
 
 struct AttachedItem {
-  explicit AttachedItem(const QString& f) : filename(f) {}
+  explicit AttachedItem(const QString &f) : filename(f) {}
   QString filename;
-  bool operator==(const AttachedItem& rhs) const {
+  bool operator==(const AttachedItem &rhs) const {
     return filename == rhs.filename;
   }
 };
 
 typedef QList<AttachedItem> AttachedItemList;
-uint qHash(const AttachedItem& item);
+uint qHash(const AttachedItem &item);
+
+enum RotateDirection { Clockwise, Anticlockwise };
 
 class AbstractAttachmentStorage : public QObject {
   Q_OBJECT
-public:
+ public:
   AbstractAttachmentStorage() {}
   virtual StorageType type() const = 0;
   virtual AttachedItemList load() = 0;
@@ -28,10 +30,11 @@ public:
   virtual void setPath(const QString &path) = 0;
   virtual void removeFiles(const QStringList &list) = 0;
   virtual void exportFiles(const QString &dst, const QStringList &list) = 0;
+  virtual void rotateFile(const QString &filename, RotateDirection direction) = 0;
   virtual void setTransactionId(const QString &transaction) = 0;
   virtual void commit() = 0;
   virtual void rollback() = 0;
 
-private:
+ private:
   Q_DISABLE_COPY(AbstractAttachmentStorage)
 };

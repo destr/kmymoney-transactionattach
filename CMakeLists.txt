@@ -29,7 +29,7 @@ endif(NOT WIN32)
 if(NOT WIN32)
 add_subdirectory(src)
 else(WIN32)
-  add_subdirectory(tests)
 endif(NOT WIN32)
+add_subdirectory(tests)
 add_subdirectory(po)
 

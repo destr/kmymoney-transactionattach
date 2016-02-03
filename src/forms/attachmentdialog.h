@@ -4,6 +4,7 @@
 #include <QtCore/QAbstractItemModel>
 #include <QtGui/QDialog>
 
+#include "../abstractattachmentstorage.h"
 
 namespace Ui {
 class AttachmentDialog;
@@ -26,10 +27,13 @@ class AttachmentDialog : public QDialog {
   void removeAttachment();
   void fitToScreen(bool checked);
   void exportAttachment();
+  void rotate90Clockwise();
+  void rotate90Anticlockwise();
 
  private slots:
   void slot_currentRowChanged(const QModelIndex &current,
                             const QModelIndex &previous);
+  void slot_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
   void accepted();
   void rejected();
 
@@ -37,6 +41,8 @@ private:
   AttachmentModel* attachmentModel();
   QSize viewportSize() const;
   QModelIndexList selectedIndexes();
+  QModelIndex currentIndex();
+  void internalRotate(RotateDirection direction);
 
  private:
   Ui::AttachmentDialog *ui;

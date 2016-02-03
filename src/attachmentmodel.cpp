@@ -101,13 +101,25 @@ void AttachmentModel::removeSelected(QModelIndexList indexList) {
 void AttachmentModel::exportSelected(const QString &dst,
                                      const QModelIndexList &indexList) {
   QStringList files;
-  Q_FOREACH(const QModelIndex &index, indexList) {
+  Q_FOREACH (const QModelIndex &index, indexList) {
     const int row = index.row();
     const QString filename = list_.at(row).filename;
     files.push_back(filename);
   }
   storage_->exportFiles(dst, files);
 }  // exportSelected
+
+void AttachmentModel::rotateSelected(const QModelIndex &index,
+                                     RotateDirection direction) {
+  if (!index.isValid()) return;
+  const QString filename = list_.at(index.row()).filename;
+  storage_->rotateFile(filename, direction);
+
+  gImageCache()->remove(filename);
+
+  dataChanged(index, index);
+
+}  // rotateSelected
 
 void AttachmentModel::commit() { storage_->commit(); }  // commit
 
@@ -143,7 +155,7 @@ QVariant AttachmentModel::data(const QModelIndex &index, int role) const {
     return list_.at(index.row()).filename;
   }
   const AttachedItem &ai = list_.at(index.row());
-  if (role == PreviewRole) {
+  if (role == PreviewRole || role == ImageRole) {
     ImageCache::Item item = gImageCache()->item(ai.filename);
     if (item.preview.isNull()) {
       QImage image(ai.filename);
@@ -157,22 +169,12 @@ QVariant AttachmentModel::data(const QModelIndex &index, int role) const {
 
       gImageCache()->add(ai.filename, item);
     }
-    return QVariant::fromValue(item.preview);
+    if (role == PreviewRole) {
+      return QVariant::fromValue(item.preview);
+    } else if (role == ImageRole) {
+      return QVariant::fromValue(item.image);
+    }
   }
-  if (role == ImageRole) {
-    return QVariant::fromValue(gImageCache()->item(ai.filename).image);
-  }
-
-  //    if (role != Qt::DisplayRole) return QVariant();
-
-  //    const AttachedItem &item = list_.at(index.row());
-
-  //    switch (index.column()) {
-  //    case FileNameColumn:
-  //        return item.filename;
-  //    default:
-  //        return QVariant();
-  //    }
   return QVariant();
 }  // data
 

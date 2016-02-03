@@ -52,6 +52,10 @@ void AttachmentStorageSqlite::exportFiles(const QString& dst, const QStringList&
 
 }
 
+void AttachmentStorageSqlite::rotateFile(const QString &filename, RotateDirection direction) {
+
+}
+
 void AttachmentStorageSqlite::setTransactionId(const QString& transaction) {}
 
 void AttachmentStorageSqlite::commit() {}

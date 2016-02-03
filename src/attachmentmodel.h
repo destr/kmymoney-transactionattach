@@ -16,6 +16,7 @@ class AttachmentModel : public QAbstractItemModel {
 
   enum Roles { FileNameRole = Qt::UserRole + 1, PreviewRole, ImageRole };
 
+
   explicit AttachmentModel(QObject *parent = 0);
   AttachmentModel(StorageType type, const QString &path, QObject *parent = 0);
   ~AttachmentModel();
@@ -27,7 +28,8 @@ class AttachmentModel : public QAbstractItemModel {
   void setStorageType(StorageType type);
 
   void removeSelected(QModelIndexList indexList);
-  void exportSelected(const QString &dst, const QModelIndexList& indexList);
+  void exportSelected(const QString &dst, const QModelIndexList &indexList);
+  void rotateSelected(const QModelIndex &index, RotateDirection direction);
 
   void commit();
   void rollback();
@@ -41,7 +43,7 @@ class AttachmentModel : public QAbstractItemModel {
   int columnCount(const QModelIndex &parent) const;
   QVariant data(const QModelIndex &index, int role) const;
 
-private:
+ private:
   void createStorage();
 
  private:
@@ -50,6 +52,7 @@ private:
 
   AbstractAttachmentStorage *storage_;
   AttachedItemList list_;
+
  private:
   Q_DISABLE_COPY(AttachmentModel)
 };

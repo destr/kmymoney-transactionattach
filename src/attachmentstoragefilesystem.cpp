@@ -2,7 +2,9 @@
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QUrl>
+#include <QtGui/QImage>
 #include <QtGui/QImageReader>
+#include <QtGui/QTransform>
 
 #include "attachmentmodel.h"
 #include "attachmentstoragefilesystem.h"
@@ -92,6 +94,26 @@ void AttachmentStorageFilesystem::exportFiles(const QString &dst,
     }
   }
 }  // exportFiles
+
+void AttachmentStorageFilesystem::rotateFile(const QString &file,
+                                             RotateDirection direction) {
+  QImage image(file);
+  if (image.isNull()) {
+    qDebug() << "Rotate file error: image null" << file;
+    return;
+  }
+
+  QTransform transform;
+  qreal angle(0.0);
+  if (direction == Clockwise)
+    angle = 90.0;
+  else
+    angle = -90.0;
+
+  transform.rotate(angle);
+  image = image.transformed(transform);
+  image.save(file);
+}  // rotateFile
 
 AttachedItemList AttachmentStorageFilesystem::load() {
   AttachedItemList list;

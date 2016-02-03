@@ -18,6 +18,7 @@ public:
   void setPath(const QString& path);
   void removeFiles(const QStringList& list);
   void exportFiles(const QString &dst, const QStringList &list);
+  void rotateFile(const QString &filename, RotateDirection direction);
   void setTransactionId(const QString& transaction);
   void commit();
   void rollback();
