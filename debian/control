@@ -1,14 +1,14 @@
 Source: kmymoney-transactionattach
 Maintainer: Alexey Maksimov <destrd@gmail.com>
 Section: utils
-Build-Depends: build-essential, debhelper, kmymoney-dev, qt4-dev-tools, cmake,
+Build-Depends: build-essential, debhelper, kmymoney-dev(>=4.7.2), qt4-dev-tools, cmake,
  kdelibs5-dev, libalkimia-dev, libgmp-dev
 Priority: optional
 Standards-Version: 3.9.6
 
 Package: kmymoney-transactionattach
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, kmymoney(>=4.7.2)
 Description: KMyMoney plugin adding functionality attachments
  KMyMoney plugin adding functionality for attaching to the transaction
 

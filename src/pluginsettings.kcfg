@@ -9,11 +9,13 @@
         <label>Type of attachment storage.</label> 
         <default>0</default>
   </entry> 
-    <entry name="lineEditDirPath" type="String">
+    <entry name="lineEditDirPath" type="Path">
         <label>The directory in which to save the attachments.</label>
+        <default>$HOME/kmymoney-transactionattach</default>
     </entry>
-    <entry name="lineEditSqlitePath" type="String">
+    <entry name="lineEditSqlitePath" type="Path">
         <label>The path to sqlite database to save the attachments.</label>
+        <default>$HOME/kmymomey-transactionattach.db</default>
     </entry>
     </group>
 </kcfg>
