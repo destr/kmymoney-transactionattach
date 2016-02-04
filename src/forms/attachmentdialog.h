@@ -44,6 +44,7 @@ private:
   QModelIndexList selectedIndexes();
   QModelIndex currentIndex();
   void internalRotate(RotateDirection direction);
+  void enableActions(bool enable);
 
  private:
   Ui::AttachmentDialog *ui;

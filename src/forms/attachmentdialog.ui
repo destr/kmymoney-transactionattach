@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="labelTransactionInfo">
      <property name="text">
-      <string>Transaction info</string>
+      <string/>
      </property>
     </widget>
    </item>
@@ -55,7 +55,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0">
      <item>
       <widget class="QToolButton" name="toolButtonAdd">
        <property name="text">
@@ -71,14 +71,35 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBoxFitToScreen">
+      <widget class="QToolButton" name="toolButtonExport">
        <property name="text">
-        <string>Fit to screen</string>
+        <string>...</string>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
+      <widget class="QToolButton" name="toolButtonFitToScreen">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButtonRotate90Clockwise">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButtonRotate90Anticlockwise">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>

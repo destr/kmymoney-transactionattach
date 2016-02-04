@@ -26,25 +26,23 @@ AttachmentDialog::AttachmentDialog(QWidget *parent)
   connect(ui->actionExport, SIGNAL(triggered()), this,
           SLOT(exportAttachment()));
 
-  connect(ui->checkBoxFitToScreen, SIGNAL(clicked(bool)), this,
-          SLOT(fitToScreen(bool)));
-
   connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accepted()));
   connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(rejected()));
-  connect(ui->actionFitToScreen, SIGNAL(triggered(bool)),
-          ui->checkBoxFitToScreen, SLOT(setChecked(bool)));
-  connect(ui->checkBoxFitToScreen, SIGNAL(clicked(bool)), ui->actionFitToScreen,
-          SLOT(setChecked(bool)));
 
   ui->toolButtonAdd->setDefaultAction(ui->actionAdd);
   ui->toolButtonRemove->setDefaultAction(ui->actionRemove);
+  ui->toolButtonExport->setDefaultAction(ui->actionExport);
+  ui->toolButtonFitToScreen->setDefaultAction(ui->actionFitToScreen);
+  ui->toolButtonRotate90Clockwise->setDefaultAction(
+      ui->actionRotate90Clockwise);
+  ui->toolButtonRotate90Anticlockwise->setDefaultAction(
+      ui->actionRotate90Anticlockwise);
 
   ui->listView->addAction(ui->actionAdd);
   ui->listView->addAction(ui->actionRemove);
   ui->listView->addAction(ui->actionExport);
 
   label_ = new AspectRatioPixmapLabel(this);
-  // label_->setScaledContents(true);
   ui->scrollArea->setBackgroundRole(QPalette::Dark);
   ui->scrollArea->setWidget(label_);
 
@@ -52,6 +50,7 @@ AttachmentDialog::AttachmentDialog(QWidget *parent)
   ui->scrollArea->addAction(ui->actionRotate90Clockwise);
   ui->scrollArea->addAction(ui->actionRotate90Anticlockwise);
 
+  enableActions(false);
 }  // Ctor
 
 AttachmentDialog::~AttachmentDialog() { delete ui; }  // Dtor
@@ -65,20 +64,20 @@ void AttachmentDialog::setModel(QAbstractItemModel *model) {
   }
   QAbstractItemModel *oldModel = ui->listView->model();
   if (oldModel) {
-      disconnect(oldModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this,
-              SLOT(slot_dataChanged(QModelIndex, QModelIndex)));
+    disconnect(oldModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)), this,
+               SLOT(slot_dataChanged(QModelIndex, QModelIndex)));
   }
   ui->listView->setModel(model);
 
   selectionModel = ui->listView->selectionModel();
   connect(selectionModel, SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
           this, SLOT(slot_currentRowChanged(QModelIndex, QModelIndex)));
-  connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this,
+  connect(model, SIGNAL(dataChanged(QModelIndex, QModelIndex)), this,
           SLOT(slot_dataChanged(QModelIndex, QModelIndex)));
 }  // setModel
 
 void AttachmentDialog::setTransactionInfo(const QString &info) {
-    ui->labelTransactionInfo->setText(info);
+  ui->labelTransactionInfo->setText(info);
 }  // setTransactionInfo
 
 void AttachmentDialog::addAttachment() {
@@ -122,7 +121,7 @@ void AttachmentDialog::exportAttachment() {
 }  // exportAttachment
 
 void AttachmentDialog::rotate90Clockwise() {
-    internalRotate(Clockwise);
+  internalRotate(Clockwise);
 }  // rotate90Clockwise
 
 void AttachmentDialog::rotate90Anticlockwise() {
@@ -132,6 +131,8 @@ void AttachmentDialog::rotate90Anticlockwise() {
 void AttachmentDialog::slot_currentRowChanged(const QModelIndex &current,
                                               const QModelIndex &previous) {
   Q_UNUSED(previous);
+  enableActions(current.isValid());
+
   QPixmap pixmap = current.data(AttachmentModel::ImageRole).value<QPixmap>();
   QSize size;
   if (ui->actionFitToScreen->isChecked()) {
@@ -140,10 +141,11 @@ void AttachmentDialog::slot_currentRowChanged(const QModelIndex &current,
   label_->setPixmap(pixmap, size);
 }  // slot_currentRowChanged
 
-void AttachmentDialog::slot_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight) {
-    Q_UNUSED(bottomRight);
-    if (!topLeft.isValid()) return;
-    slot_currentRowChanged(currentIndex(), QModelIndex());
+void AttachmentDialog::slot_dataChanged(const QModelIndex &topLeft,
+                                        const QModelIndex &bottomRight) {
+  Q_UNUSED(bottomRight);
+  if (!topLeft.isValid()) return;
+  slot_currentRowChanged(currentIndex(), QModelIndex());
 }  // slot_DataChanged
 
 void AttachmentDialog::accepted() {
@@ -200,3 +202,10 @@ void AttachmentDialog::internalRotate(RotateDirection direction) {
 
   model->rotateSelected(current, direction);
 }  // internalRotate
+
+void AttachmentDialog::enableActions(bool enable) {
+    ui->actionRemove->setEnabled(enable);
+    ui->actionExport->setEnabled(enable);
+    ui->actionRotate90Clockwise->setEnabled(enable);
+    ui->actionRotate90Anticlockwise->setEnabled(enable);
+}  // enableActions

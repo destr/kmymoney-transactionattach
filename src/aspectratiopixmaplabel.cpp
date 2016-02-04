@@ -35,7 +35,7 @@ void AspectRatioPixmapLabel::resizeEvent(QResizeEvent* event) {
 }  // resizeEvent
 
 void AspectRatioPixmapLabel::internalSetPixmap(const QSize& size) {
-  if (!size.isValid()) {
+  if (!size.isValid() || pixmap_.isNull()) {
     QLabel::setPixmap(pixmap_);
     return;
   }
