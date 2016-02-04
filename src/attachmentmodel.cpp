@@ -125,8 +125,6 @@ void AttachmentModel::commit() { storage_->commit(); }  // commit
 
 void AttachmentModel::rollback() { storage_->rollback(); }  // rollback
 
-void AttachmentModel::reloadConfiguration() {}  // reloadConfiguration
-
 QModelIndex AttachmentModel::index(int row, int column,
                                    const QModelIndex &parent) const {
   if (parent.isValid()) return QModelIndex();

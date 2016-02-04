@@ -77,6 +77,10 @@ void AttachmentDialog::setModel(QAbstractItemModel *model) {
           SLOT(slot_dataChanged(QModelIndex, QModelIndex)));
 }  // setModel
 
+void AttachmentDialog::setTransactionInfo(const QString &info) {
+    ui->labelTransactionInfo->setText(info);
+}  // setTransactionInfo
+
 void AttachmentDialog::addAttachment() {
   QStringList files =
       QFileDialog::getOpenFileNames(this, tr("Select files"), QString(), "");

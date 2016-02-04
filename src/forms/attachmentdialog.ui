@@ -13,7 +13,14 @@
   <property name="windowTitle">
    <string>Transaction attachments</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
+   <item>
+    <widget class="QLabel" name="labelTransactionInfo">
+     <property name="text">
+      <string>Transaction info</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
@@ -40,7 +47,7 @@
          <x>0</x>
          <y>0</y>
          <width>63</width>
-         <height>542</height>
+         <height>519</height>
         </rect>
        </property>
       </widget>
@@ -48,7 +55,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0">
      <item>
       <widget class="QToolButton" name="toolButtonAdd">
        <property name="text">
@@ -128,7 +135,8 @@
   </action>
   <action name="actionExport">
    <property name="icon">
-    <iconset theme="document-export"/>
+    <iconset theme="document-export">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Export...</string>
@@ -139,7 +147,8 @@
   </action>
   <action name="actionRotate90Clockwise">
    <property name="icon">
-    <iconset theme="object-rotate-right"/>
+    <iconset theme="object-rotate-right">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Rotate 90 ° clockwise</string>
@@ -150,7 +159,8 @@
   </action>
   <action name="actionRotate90Anticlockwise">
    <property name="icon">
-    <iconset theme="object-rotate-left"/>
+    <iconset theme="object-rotate-left">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Rotate 90 ° anticlockwise</string>

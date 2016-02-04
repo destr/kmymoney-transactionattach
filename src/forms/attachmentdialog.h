@@ -21,6 +21,7 @@ class AttachmentDialog : public QDialog {
   ~AttachmentDialog();
 
   void setModel(QAbstractItemModel *model);
+  void setTransactionInfo(const QString &info);
 
  public slots:
   void addAttachment();

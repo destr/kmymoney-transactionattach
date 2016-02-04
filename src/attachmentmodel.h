@@ -34,7 +34,6 @@ class AttachmentModel : public QAbstractItemModel {
   void commit();
   void rollback();
 
-  void reloadConfiguration();
   // QAbstractItemModel interface
  public:
   QModelIndex index(int row, int column, const QModelIndex &parent) const;

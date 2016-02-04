@@ -8,6 +8,7 @@
 
 #include <kmymoney/pluginloader.h>
 #include <kmymoney/selectedtransaction.h>
+#include <kmymoney/mymoneyfile.h>
 
 #include "attachmentdialog.h"
 #include "attachmentmodel.h"
@@ -23,7 +24,11 @@ struct TransactionAttach::Private {
   KAction *action;
   /// selected transaction id
   QString transactionId;
+  /// detail transaction info
+  QString transactionInfo;
   AttachmentModel model;
+
+  void setModelSettings();
 };
 
 TransactionAttach::TransactionAttach(QObject *parent, const QVariantList &args)
@@ -50,6 +55,7 @@ TransactionAttach::TransactionAttach(QObject *parent, const QVariantList &args)
   connect(instance, SIGNAL(configChanged(Plugin *)), this,
           SLOT(slotConfigChanged(Plugin *)));
 
+  d_->setModelSettings();
 }  // Ctor
 
 TransactionAttach::~TransactionAttach() {}  // Dtor
@@ -73,19 +79,19 @@ void TransactionAttach::slotUnplug(KPluginInfo *info) {
 }  // slotUnplug
 
 void TransactionAttach::slotConfigChanged(KMyMoneyPlugin::Plugin *plugin) {
-    Q_UNUSED(plugin)
-    PluginSettings::self()->readConfig();
-    d_->model.reloadConfiguration();
+  Q_UNUSED(plugin)
+  PluginSettings::self()->readConfig();
+  d_->setModelSettings();
 }  // slotConfigChanged
 
 void TransactionAttach::slotAttachment() {
   Q_ASSERT(!d_->transactionId.isEmpty());
 
-  /// TODO reload()
   d_->model.setTransactionId(d_->transactionId);
-  // qDebug() << PluginSettings::lineEditPath();
+
   AttachmentDialog d;
   d.setModel(&d_->model);
+  d.setTransactionInfo(d_->transactionInfo);
   qDebug() << Q_FUNC_INFO << d_->transactionId;
   d.exec();
 }  // slotAttachment
@@ -100,6 +106,37 @@ void TransactionAttach::slotTransactionsSelected(
   }
   d_->action->setEnabled(true);
 
-  const MyMoneyTransaction &t = transactions.first().transaction();
+  const KMyMoneyRegister::SelectedTransaction &st = transactions.first();
+  const MyMoneyTransaction &t = st.transaction();
+  if (t.id().isEmpty()) return;
   d_->transactionId = t.id();
+
+  MyMoneyFile *file = MyMoneyFile::instance();
+
+  MyMoneySplit sp = t.splitByAccount(st.split().accountId(), false);
+  const QString category = file->accountToCategory(sp.accountId());
+
+  d_->transactionInfo =
+      QString(i18n("<b>Transaction:</b> %1 &nbsp; %2 &nbsp; %4: %3")
+                  .arg(t.postDate().toString(Qt::DefaultLocaleShortDate))
+                  .arg(category)
+                  .arg(st.split().shares().abs().toDouble())
+                  .arg(t.commodity()));
 }  // slotTransactionsSelected
+
+void TransactionAttach::Private::setModelSettings() {
+  StorageType type = StorageType(PluginSettings::comboBoxStorageType());
+
+  QString path;
+  switch (type) {
+    default:
+    case Filesystem:
+      path = PluginSettings::lineEditDirPath();
+      break;
+    case Sqlite:
+      path = PluginSettings::lineEditSqlitePath();
+      break;
+  }
+  model.setStorageType(type);
+  model.setStoragePath(path);
+}  // setModelSettings
