@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=KMyMoney Transaction Attach
+Comment=Add transaction attach to KMyMoney
+ServiceTypes=KMyMoneyPlugin
+Type=Service
+Icon=network-connect
+X-KDE-Library=kmm_transactionattach
+X-KDE-PluginInfo-Name=KMyMoney Transaction Attach
+X-KDE-PluginInfo-Author=Alexey Maksimov
+X-KDE-PluginInfo-Email=destrd@gmail.com
+X-KDE-PluginInfo-Version=${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_SUFFIX}
+X-KDE-PluginInfo-Website=http://kmymoney.org/plugins.html
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true
