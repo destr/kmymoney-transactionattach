@@ -6,6 +6,10 @@ project(kmymoney-transactionattach)
 
 set(CMAKE_AUTOMOC TRUE)
 
+set(VERSION_MAJOR "0")
+set(VERSION_MINOR "0")
+set(VERSION_PATCH "2")
+
 if(NOT WIN32)
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)

@@ -1,6 +1,6 @@
 #!/bin/sh
 BASEDIR="../src"   # root of translatable sources
-PROJECT="kmm_transactionattach_ru"    # project name
+PROJECT="kmm_transactionattach"    # project name
 BUGADDR="https://github.com/destr/kmymoney-transactionattach/issues"    # MSGID-Bugs
 WDIR=`pwd`      # working dir
  
