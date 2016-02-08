@@ -1,6 +1,8 @@
 [Desktop Entry]
 Name=KMyMoney Transaction Attach
+Name[ru]=KMyMoney вложение для транзакции
 Comment=Add transaction attach to KMyMoney
+Comment[ru]=Добавление вложения к транзакции
 ServiceTypes=KMyMoneyPlugin
 Type=Service
 Icon=network-connect

@@ -1,0 +1,172 @@
+# Translate to russian
+# Copyright (C) 2016 
+# This file is distributed under the same license as the kmymoney-transactionattach package.
+# Alexey Maksimov <destrd@gmail.com>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.3\n"
+"Report-Msgid-Bugs-To: https://github.com/destr/kmymoney-transactionattach/"
+"issues\n"
+"POT-Creation-Date: 2016-02-08 22:18+0300\n"
+"PO-Revision-Date: 2016-02-08 22:20+0300\n"
+"Last-Translator: Alexey Maksimov <destrd@gmail.com>\n"
+"Language-Team: Alexey Maksimov <destrd@gmail.com>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: forms/filesystemstoragesettings.cpp:18 forms/sqlitestoragesettings.cpp:18
+msgid "Select attachments storage"
+msgstr "Тип хранилища прикрепленных файлов"
+
+#: forms/pluginsettingswidget.cpp:9
+msgid "Filesystem"
+msgstr "Файловая система"
+
+#: forms/pluginsettingswidget.cpp:10
+msgid "Sqlite"
+msgstr ""
+
+#: transactionattach.cpp:46
+msgid "Attachment..."
+msgstr "Вложения..."
+
+#: transactionattach.cpp:120
+msgid "<b>Transaction:</b> %1 &nbsp; %2 &nbsp; %4: %3"
+msgstr "<b>Транзакция:</b> %1 &nbsp; %2 &nbsp; %4: %3"
+
+#. i18n: file: forms/attachmentdialog.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, AttachmentDialog)
+#: rc.cpp:3
+msgid "Transaction attachments"
+msgstr "Вложения транзакции"
+
+#. i18n: file: forms/attachmentdialog.ui:62
+#. i18n: ectx: property (text), widget (QToolButton, toolButtonAdd)
+#. i18n: file: forms/attachmentdialog.ui:69
+#. i18n: ectx: property (text), widget (QToolButton, toolButtonRemove)
+#. i18n: file: forms/attachmentdialog.ui:76
+#. i18n: ectx: property (text), widget (QToolButton, toolButtonExport)
+#. i18n: file: forms/attachmentdialog.ui:83
+#. i18n: ectx: property (text), widget (QToolButton, toolButtonFitToScreen)
+#. i18n: file: forms/attachmentdialog.ui:90
+#. i18n: ectx: property (text), widget (QToolButton, toolButtonRotate90Clockwise)
+#. i18n: file: forms/attachmentdialog.ui:97
+#. i18n: ectx: property (text), widget (QToolButton, toolButtonRotate90Anticlockwise)
+#: rc.cpp:6 rc.cpp:9 rc.cpp:12 rc.cpp:15 rc.cpp:18 rc.cpp:21
+msgid "..."
+msgstr "..."
+
+#. i18n: file: forms/attachmentdialog.ui:130
+#. i18n: ectx: property (text), widget (QDialogButtonBox, buttonBox)
+#. i18n: file: forms/attachmentdialog.ui:133
+#. i18n: ectx: property (toolTip), widget (QDialogButtonBox, buttonBox)
+#: rc.cpp:24 rc.cpp:27
+msgid "Add"
+msgstr "Добавить"
+
+#. i18n: file: forms/attachmentdialog.ui:142
+#. i18n: ectx: property (text), widget (QDialogButtonBox, buttonBox)
+#: rc.cpp:30
+msgid "Remove"
+msgstr "Удалить"
+
+#. i18n: file: forms/attachmentdialog.ui:154
+#. i18n: ectx: property (text), widget (QDialogButtonBox, buttonBox)
+#: rc.cpp:33
+msgid "Fit to screen"
+msgstr "Вписать в экран"
+
+#. i18n: file: forms/attachmentdialog.ui:163
+#. i18n: ectx: property (text), widget (QDialogButtonBox, buttonBox)
+#: rc.cpp:36
+msgid "Export..."
+msgstr "Экспорт..."
+
+#. i18n: file: forms/attachmentdialog.ui:166
+#. i18n: ectx: property (toolTip), widget (QDialogButtonBox, buttonBox)
+#: rc.cpp:39
+msgid "Export"
+msgstr "Экспорт"
+
+#. i18n: file: forms/attachmentdialog.ui:175
+#. i18n: ectx: property (text), widget (QDialogButtonBox, buttonBox)
+#. i18n: file: forms/attachmentdialog.ui:178
+#. i18n: ectx: property (toolTip), widget (QDialogButtonBox, buttonBox)
+#: rc.cpp:42 rc.cpp:45
+msgid "Rotate 90 ° clockwise"
+msgstr "Повернуть на 90 ° по часовой стрелке"
+
+#. i18n: file: forms/attachmentdialog.ui:187
+#. i18n: ectx: property (text), widget (QDialogButtonBox, buttonBox)
+#. i18n: file: forms/attachmentdialog.ui:190
+#. i18n: ectx: property (toolTip), widget (QDialogButtonBox, buttonBox)
+#: rc.cpp:48 rc.cpp:51
+msgid "Rotate 90 ° anticlockwise"
+msgstr "Повернуть на 90 ° против часовой стрелки"
+
+#. i18n: file: forms/filesystemstoragesettings.ui:14
+#. i18n: ectx: property (windowTitle), widget (QWidget, FilesystemStorageSettings)
+#. i18n: file: forms/pluginsettingsdecl.ui:14
+#. i18n: ectx: property (windowTitle), widget (QWidget, PluginSettingsDecl)
+#. i18n: file: forms/sqlitestoragesettings.ui:14
+#. i18n: ectx: property (windowTitle), widget (QWidget, SqliteStorageSettings)
+#: rc.cpp:54 rc.cpp:63 rc.cpp:69
+msgid "Form"
+msgstr "Форма"
+
+#. i18n: file: forms/filesystemstoragesettings.ui:22
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: rc.cpp:57
+msgid "Storage directory path"
+msgstr "Путь к каталогу-хранилищу"
+
+#. i18n: file: forms/filesystemstoragesettings.ui:32
+#. i18n: ectx: property (text), widget (QPushButton, pushButtonBrowse)
+#. i18n: file: forms/sqlitestoragesettings.ui:32
+#. i18n: ectx: property (text), widget (QPushButton, pushButtonBrowse)
+#: rc.cpp:60 rc.cpp:75
+msgid "Browse"
+msgstr "Обзор"
+
+#. i18n: file: forms/pluginsettingsdecl.ui:22
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: rc.cpp:66
+msgid "Attachment storage type"
+msgstr "Тип хранилища вложений"
+
+#. i18n: file: forms/sqlitestoragesettings.ui:22
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: rc.cpp:72
+msgid "Storage sqlite db path"
+msgstr "Путь к файлу sqlite хранилища"
+
+#. i18n: file: pluginsettings.kcfg:9
+#. i18n: ectx: label, entry (comboBoxStorageType), group (General)
+#: rc.cpp:78
+msgid "Type of attachment storage."
+msgstr "Тип хранилища вложений."
+
+#. i18n: file: pluginsettings.kcfg:13
+#. i18n: ectx: label, entry (lineEditDirPath), group (General)
+#: rc.cpp:81
+msgid "The directory in which to save the attachments."
+msgstr "Каталог для сохранения вложений"
+
+#. i18n: file: pluginsettings.kcfg:17
+#. i18n: ectx: label, entry (lineEditSqlitePath), group (General)
+#: rc.cpp:84
+msgid "The path to sqlite database to save the attachments."
+msgstr "Путь к файлу sqlite базы вложений"
+
+#: rc.cpp:85
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Алексей Максимов"
+
+#: rc.cpp:86
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "destrd@gmail.com"
