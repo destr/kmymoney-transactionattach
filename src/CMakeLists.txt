@@ -61,7 +61,7 @@ install(FILES kmm_transactionattach.rc
 install(TARGETS kmm_transactionattach
         DESTINATION ${PLUGIN_INSTALL_DIR})
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/kmm_transactionattach.desktop
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kmm_transactionattach.desktop
         DESTINATION ${SERVICES_INSTALL_DIR})
 
 ### KCM module

@@ -1,5 +1,8 @@
 [Desktop Entry]
 Name=Configure transactionattach plugin
+Name[ru]=Конфигурация плагина вложений для транзакции
+Comment=Permits the configuration of the transaction attach plugin
+Commnet[ru]=Настройка вложений для транзакций
 Icon=x-office-calendar
 Type=Service
 ServiceTypes=KCModule
@@ -9,4 +12,3 @@ Keywords=transactionattach;kmymoney;
 X-KDE-Library=kcm_kmm_transactionattach
 X-KDE-ParentApp=KMyMoney Transaction Attach
 X-KDE-ParentComponents=KMyMoney Transaction Attach
-Comment=Permits the configuration of the transaction attach plugin
