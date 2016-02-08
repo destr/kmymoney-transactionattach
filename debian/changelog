@@ -1,3 +1,9 @@
+kmymoney-transactionattach (0.0.3) wily; urgency=medium
+
+  * Add russian translation
+
+ -- Alexey Maksimov <destrd@gmail.com>  Mon, 08 Feb 2016 22:59:11 +0300
+
 kmymoney-transactionattach (0.0.2) wily; urgency=medium
 
   * First stable release
